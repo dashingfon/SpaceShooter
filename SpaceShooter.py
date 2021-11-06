@@ -20,7 +20,7 @@ Music = False
 Mode = ''
 
 P1_pointer = 3
-P2_pointer = 2
+P2_pointer = 1
 
 pygame.event.post(pygame.event.Event(Cfg.HOMESCREEN))
 
@@ -41,8 +41,9 @@ while True:
             Cfg.SELECTSIDE_ELEMENT,
             P1_pointer,
             P2_pointer)
-            P1_pointer, P2_pointer = game_parameters[1], game_parameters[2]
-            Mode = game_parameters[0]
+            if game_parameters:
+                P1_pointer, P2_pointer = game_parameters[1], game_parameters[2]
+                Mode = game_parameters[0]
 
     
     pygame.display.update()

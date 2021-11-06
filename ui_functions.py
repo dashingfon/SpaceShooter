@@ -53,13 +53,15 @@ def HomeScreen(Surface,homeBg):
 def get_mode(point1,point2):
     parallel = point1[0] == point2[0] #parallel when both x are equal
     point1_com = point1 == Cfg.P1_POSITIONS[1] # controller 1 is in the computer position
-    point2_com = point2 == Cfg.P1_POSITIONS[1] # controller 2 is in the computer position
+    point2_com = point2 == Cfg.P2_POSITIONS[1] # controller 2 is in the computer position
     if parallel and point1_com:
         return 'Com'
     elif not parallel and not point1_com and not point2_com:
-        return '2p'
+        return '2P'
     elif not parallel and point2_com or point1_com:
-        return '1p'
+        return '1P'
+    elif parallel and not point1_com or point2_com:
+        return 'Same'
 
 
 def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
@@ -88,6 +90,17 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
         Cfg.P2_CONTROLLER_IMG,(Cfg.P2_POSITIONS[P2_indicator]),True
         )
 
+        mode = get_mode(P1_controller.location,P2_controller.location)
+        if mode == 'Com' or mode == 'Same':
+            SelectButton.deactivate()
+        elif mode == '1P':
+            SelectButton.activate()
+            SelectButton.destination = Cfg.SELECTSHIP_1P
+        elif mode =='2P':
+            SelectButton.activate()
+            SelectButton.destination = Cfg.SELECTSHIP_2P
+
+        
         Surface.blit(SelectSideBg,(0,0))
         Surface.blit(SelectSideEle,(126,79))
 
@@ -115,46 +128,51 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                 if event.key == K_LEFT:
                     P2_p -= 1
     
-                if event.key == K_s or event.key == K_DOWN:
-                    SelectSide_pointer += 1
-                if event.key == K_w or event.key == K_UP:
-                    SelectSide_pointer -= 1    
+                if event.key == K_s or event.key == K_DOWN and mode == 'Com' or mode == 'Same':
+                    pass
 
-                if event.key == K_KP_ENTER or event.key == K_SPACE:
-                    mode = get_mode(P1_controller.location,P2_controller.location)
-                    if mode == 'Com':
-                        pass
-                    elif mode == '1p':
-                        SelectButton.destination = Cfg.SELECTSHIP_1P
-                        SELECTSIDE_GRID[SelectSide_indicator].select()
-                        game_parameter = [mode,P1_p,P2_p]
-                        break
-                        
-                    elif mode == '2p':
-                        SelectButton.destination = Cfg.SELECTSHIP_2P
-                        SELECTSIDE_GRID[SelectSide_indicator].select()
-                        game_parameter = [mode,P1_p,P2_p]
-                        break
-        
+                elif event.key == K_s or event.key == K_DOWN:
+                    SelectSide_pointer += 1
+
+                if event.key == K_w or event.key == K_UP and mode == 'Com' or mode == 'Same':
+                    pass
+
+                elif event.key == K_w or event.key == K_UP:
+                    SelectSide_pointer -= 1
+                    
+                if event.key == K_KP_ENTER or event.key == K_SPACE:                  
+                    SELECTSIDE_GRID[SelectSide_indicator].select()
+                    Active = False
+                    break
+         
         pygame.display.update()            
         if game_parameter:
             return game_parameter
               
-                       
+        '''               
 def SelectShip_1P():
 
     P1_SELECTSHIP_GRID = [
-
+        [Ceader,Quraos,Ronir],
+        [Vidite,Rhomos,Elous],
+        [Backbutton,SettingsButton,Pass]
     ]
 
 def SelectShip_2P():
 
     P2_SELECTSHIP_GRID = [
-        [
-            
-        ],[
-
+        [   [],
+            [],
+            []            
+        ],
+        [   [],
+            [],
+            []
         ]
     ]
 
 def Settings():
+
+    SETTINGS_GRID = ()
+
+'''

@@ -92,20 +92,43 @@ SELECTBUTTON = pygame.image.load(
 SHIP_INDICATOR = pygame.image.load(
     "Assets\Icons\SelectShip\P1_Ship_Indicator.png"
 )
-
+'''
 SHIPS = {
     'Buttons_IMG':{
+        "Ceader": ,
+        'Vidite': ,
+        'Quraos': ,
+        'Rhomos': ,
+        'Elous': ,
+        'Ronir': 
 
     },
     'Weapons':{
+        "Ceader": ,
+        'Vidite': ,
+        'Quraos': ,
+        'Rhomos': ,
+        'Elous': ,
+        'Ronir': 
 
     },
     'Speed':{
+        "Ceader": ,
+        'Vidite': ,
+        'Quraos': ,
+        'Rhomos': ,
+        'Elous': ,
+        'Ronir': 
 
-    },
+    }}
 
-}
+    
+'''
 
+BUTTON_GREY_OUT = pygame.image.load(
+    "Assets\Icons\SelectShip\Button_grey_out.png"
+)
 
-
-
+PlAYER_GREY_OUT = pygame.image.load(
+    "Assets\Icons\SelectShip\Player_grey_out.png"
+)
