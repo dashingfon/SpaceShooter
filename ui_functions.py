@@ -51,8 +51,8 @@ def HomeScreen(Surface,homeBg):
             
 
 def get_mode(point1,point2):
-    parallel = point1[0] == point2[0]
-    point1_com = point1 == Cfg.P1_POSITIONS[1]
+    parallel = point1[0] == point2[0] #parallel when both x are equal
+    point1_com = point1 == Cfg.P1_POSITIONS[1] #
     point2_com = point2 == Cfg.P1_POSITIONS[1]
     if parallel and point1_com:
         return 'Com'
@@ -98,21 +98,21 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
         SELECTSIDE_GRID[SelectSide_indicator].indicate(Surface,Cfg.BUTTON_INDICATOR)
         for i in SELECTSIDE_GRID:
             i.display(Surface)
-            
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
 
             if event.type == KEYUP:
-                if event.key == K_d and P2_controller.location != Cfg.P2_POSITIONS[2] :
+                if event.key == K_d:
                     P1_p += 1
-                if event.key == K_a and P2_controller.location != Cfg.P2_POSITIONS[0]:
+                if event.key == K_a:
                     P1_p -= 1
                 
-                if event.key == K_RIGHT and P1_controller.location != Cfg.P1_POSITIONS[2]:
+                if event.key == K_RIGHT:
                     P2_p += 1
-                if event.key == K_LEFT and P1_controller.location != Cfg.P1_POSITIONS[0]:
+                if event.key == K_LEFT:
                     P2_p -= 1
     
                 if event.key == K_s or event.key == K_DOWN:
@@ -123,8 +123,7 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                 if event.key == K_KP_ENTER or event.key == K_SPACE:
                     mode = get_mode(P1_controller.location,P2_controller.location)
                     if mode == 'Com':
-                        SELECTSIDE_GRID[SelectSide_indicator].select()
-                        continue
+                        pass
                     elif mode == '1p':
                         SelectButton.destination = Cfg.SELECTSHIP_1P
                         SELECTSIDE_GRID[SelectSide_indicator].select()
@@ -142,5 +141,3 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
             return game_parameter
               
                        
-
-

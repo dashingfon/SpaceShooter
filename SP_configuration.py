@@ -1,8 +1,6 @@
 import pygame
 from pygame.locals import *
 
-PLAYER = ('Com','1p','2p')
-
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 RED = (255,0,0)
@@ -24,7 +22,8 @@ SETTINGS = USEREVENT + 5
 PLAYGAME = USEREVENT + 6
 PAUSEGAME = USEREVENT + 7
 GAMEEND = USEREVENT + 8
-INVALID = USEREVENT + 9
+SELECTSTAGE = USEREVENT + 9
+INVALID = USEREVENT + 10
 
 HOMESCREEN_BACKGROUND = pygame.image.load(
     "Assets\Icons\HomeScreen\SpaceShooter_homeBackground.png")
@@ -94,10 +93,18 @@ SHIP_INDICATOR = pygame.image.load(
     "Assets\Icons\SelectShip\P1_Ship_Indicator.png"
 )
 
-#2 player select ship grid
-P2_SELECTSHIP_GRID = []
+SHIPS = {
+    'Buttons_IMG':{
 
-#2p selectship butons
+    },
+    'Weapons':{
+
+    },
+    'Speed':{
+
+    },
+
+}
 
 
 
