@@ -52,8 +52,8 @@ def HomeScreen(Surface,homeBg):
 
 def get_mode(point1,point2):
     parallel = point1[0] == point2[0] #parallel when both x are equal
-    point1_com = point1 == Cfg.P1_POSITIONS[1] #
-    point2_com = point2 == Cfg.P1_POSITIONS[1]
+    point1_com = point1 == Cfg.P1_POSITIONS[1] # controller 1 is in the computer position
+    point2_com = point2 == Cfg.P1_POSITIONS[1] # controller 2 is in the computer position
     if parallel and point1_com:
         return 'Com'
     elif not parallel and not point1_com and not point2_com:
@@ -141,3 +141,20 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
             return game_parameter
               
                        
+def SelectShip_1P():
+
+    P1_SELECTSHIP_GRID = [
+
+    ]
+
+def SelectShip_2P():
+
+    P2_SELECTSHIP_GRID = [
+        [
+            
+        ],[
+
+        ]
+    ]
+
+def Settings():
