@@ -149,7 +149,7 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
         if game_parameter:
             return game_parameter
               
-        '''               
+                     
 def SelectShip_1P():
 
     P1_SELECTSHIP_GRID = [
@@ -161,18 +161,19 @@ def SelectShip_1P():
 def SelectShip_2P():
 
     P2_SELECTSHIP_GRID = [
-        [   [],
-            [],
-            []            
+        [   [Ceader,Vidite],
+            [Quraos,Rhomos],
+            [Elous,Ronir],
+            [Backbutton,SettingsButton]           
         ],
-        [   [],
-            [],
-            []
+        [   [Ceader,Vidite],
+            [Quraos,Rhomos],
+            [Elous,Ronir],
+            [Backbutton,SettingsButton]
         ]
     ]
 
 def Settings():
 
-    SETTINGS_GRID = ()
+    SETTINGS_GRID = (GameSettings,Moves,HighScores,Achievement)
 
-'''

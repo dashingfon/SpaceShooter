@@ -92,10 +92,68 @@ SELECTBUTTON = pygame.image.load(
 SHIP_INDICATOR = pygame.image.load(
     "Assets\Icons\SelectShip\P1_Ship_Indicator.png"
 )
-'''
+
+
+BUTTON_GREY_OUT = pygame.image.load(
+    "Assets\Icons\SelectShip\Button_grey_out.png"
+)
+
+PlAYER_GREY_OUT = pygame.image.load(
+    "Assets\Icons\SelectShip\Player_grey_out.png"
+)
+
+# Ship buttons and images
+CEADER_IMG =
+CEADER_BUTTON_IMG =
+
+VIDITE_IMG = 
+VIDITE_BUTTON_IMG =
+
+QURAOS_IMG =
+QURAOS_BUTTON_IMG =
+
+RHOMOS_IMG =
+RHOMOS_BUTTON_IMG =
+
+ELOUS_IMG =
+ELOUS_BUTTON_IMG = 
+
+RONIR_IMG =
+RONIR_BUTTON_IMG =
+
+# Weapon images
+BASICGUN_1 =
+BASICGUN_2 =
+
+BASIC_BOMB = 
+ADVANCEDBOMB = 
+
+CAPSULE_GUN =
+WIDE_CAPSULE_GUN =
+
+CRYSTALBOMB_1 =
+CRYSTALBOMB_2 =
+CRYSTALBOMB_3 =
+
+CRYSTAL_GUN =
+
+MISSILE_1 = 
+MISSILE_2 =
+MISSILE_3 =
+
+
 SHIPS = {
     'Buttons_IMG':{
         "Ceader": ,
+        'Vidite': ,
+        'Quraos': ,
+        'Rhomos': ,
+        'Elous': ,
+        'Ronir': 
+
+    },
+    'Ship_IMG': {
+       "Ceader": ,
         'Vidite': ,
         'Quraos': ,
         'Rhomos': ,
@@ -120,15 +178,19 @@ SHIPS = {
         'Elous': ,
         'Ronir': 
 
-    }}
+    }
+}
 
-    
-'''
+   WEAPONS = {
+       'image' : {
 
-BUTTON_GREY_OUT = pygame.image.load(
-    "Assets\Icons\SelectShip\Button_grey_out.png"
-)
+       },
+       'damage' :{
 
-PlAYER_GREY_OUT = pygame.image.load(
-    "Assets\Icons\SelectShip\Player_grey_out.png"
-)
+       },
+       'speed' : {
+
+       }
+   } 
+
+
