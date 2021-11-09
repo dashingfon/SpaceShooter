@@ -172,7 +172,7 @@ def SelectShip_2P():
             [Backbutton,SettingsButton]
         ]
     ]
-
+ 
 def Settings():
 
     SETTINGS_GRID = (GameSettings,Moves,HighScores,Achievement)
