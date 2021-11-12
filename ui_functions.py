@@ -1,10 +1,8 @@
-from buttons import Button, Icon
+from buttons import Button, Graph, Icon, Node
 import SP_configuration as Cfg
 
 import pygame, sys
 from pygame.locals import *
-
-MainClock = pygame.time.Clock()
 
 def HomeScreen(Surface,homeBg):
 
@@ -83,12 +81,10 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
         P2_indicator = P2_p % len(Cfg.P2_POSITIONS)
 
         P1_controller = Icon(
-        Cfg.P1_CONTROLLER_IMG,(Cfg.P1_POSITIONS[P1_indicator]),True
-        )
+        Cfg.P1_CONTROLLER_IMG,(Cfg.P1_POSITIONS[P1_indicator]))
 
         P2_controller = Icon(
-        Cfg.P2_CONTROLLER_IMG,(Cfg.P2_POSITIONS[P2_indicator]),True
-        )
+        Cfg.P2_CONTROLLER_IMG,(Cfg.P2_POSITIONS[P2_indicator]))
 
         mode = get_mode(P1_controller.location,P2_controller.location)
         if mode == 'Com' or mode == 'Same':
@@ -104,9 +100,10 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
         Surface.blit(SelectSideBg,(0,0))
         Surface.blit(SelectSideEle,(126,79))
 
-        SelectSide_indicator = SelectSide_pointer % len(SELECTSIDE_GRID)
         P1_controller.display(Surface)
         P2_controller.display(Surface)
+
+        SelectSide_indicator = SelectSide_pointer % len(SELECTSIDE_GRID)
 
         SELECTSIDE_GRID[SelectSide_indicator].indicate(Surface,Cfg.BUTTON_INDICATOR)
         for i in SELECTSIDE_GRID:
@@ -150,14 +147,88 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
         if game_parameter:
             return game_parameter
               
-                     
-def SelectShip_1P():
+def get_new_ships():
 
-    P1_SELECTSHIP_GRID = [
-        [Ceader,Quraos,Ronir],
-        [Vidite,Rhomos,Elous],
-        [Backbutton,SettingsButton,Pass]
-    ]
+def get_available_ships():
+    
+def SelectShip_1P(Surface,SelectSideBg):
+
+    ShipIcon = Icon(Cfg.SHIP_ICON,(474,63))
+
+    CeaderButton = [Button(Cfg.CEADER_BUTTON_IMG,Cfg.SELECTSTAGE,(119,154)),'Ceader']
+    ViditeButton = [Button(Cfg.VIDITE_BUTTON_IMG,Cfg.SELECTSTAGE,(289,154)),'Vidite']
+    QuraosButton = [Button(Cfg.QURAOS_BUTTON_IMG,Cfg.SELECTSTAGE,(119,279)),'Quraos']
+    RhomosButton = [Button(Cfg.RHOMOS_BUTTON_IMG,Cfg.SELECTSTAGE,(289,279)),'Rhomos']
+    ElousButton = [Button(Cfg.ELOUS_BUTTON_IMG,Cfg.SELECTSTAGE,(119,397)),'Elous']
+    RonirButton = [Button(Cfg.RONIR_BUTTON_IMG,Cfg.SELECTSTAGE,(289,397)),'Ronir']
+
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SELECTSIDES,(426,473))
+    SettingsButton = Button(Cfg.SETTINGSBUTTON,Cfg.SETTINGS,(524,473))
+
+    ShipButtons = [
+        CeaderButton,
+        ViditeButton,
+        QuraosButton,
+        RhomosButton,
+        ElousButton,
+        RonirButton]
+
+    ControlButtons = [
+        BackButton,
+        SettingsButton]
+
+    CeaderNode = Node(CeaderButton,[
+        ElousButton,
+        QuraosButton,
+        BackButton,
+        ViditeButton])
+    ViditeNode = Node(ViditeButton,[
+        RonirButton,
+        RhomosButton,
+        CeaderButton,
+        BackButton])
+    QuraosNode = Node(QuraosButton,[
+        CeaderButton,
+        ElousButton,
+        SettingsButton,
+        RhomosButton])
+    RhomosNode = Node(RhomosButton,[
+        ViditeButton,
+        RonirButton,
+        QuraosButton,
+        BackButton])
+    ElousNode = Node(ElousButton,[
+        QuraosButton,
+        CeaderButton,
+        SettingsButton,
+        RonirButton])
+    RonirNode = Node(RonirButton,[
+        RhomosButton,
+        ViditeButton,
+        ElousButton,
+        SettingsButton])
+
+    Nodes = [
+        CeaderNode,
+        ViditeNode,
+        QuraosNode,
+        RhomosNode,
+        ElousNode,
+        RonirNode]
+
+    P1_SELECTSHIP_GRID = Graph(Nodes)
+
+    Active = True
+
+    while Active:
+        Surface.blit(SelectSideBg,(0,0))
+        ShipIcon.display(Surface)
+
+        for Ship in ShipButtons:
+            Ship[0].display(Surface)
+        
+        for buttons in ControlButtons:
+            buttons.display(Surface)
 
 def SelectShip_2P():
 
@@ -176,5 +247,5 @@ def SelectShip_2P():
  
 def Settings():
 
-    SETTINGS_GRID = (GameSettings,Moves,HighScores,Achievement)
+    SETTINGS_GRID = (GameSettings,Moves,HighScores,Achievement,Backbutton)
 

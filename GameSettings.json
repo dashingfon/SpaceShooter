@@ -8,6 +8,9 @@
         ],
         "Volume" : 0,
         "Time_2p" : 5,
-        "Available_Ships":[]
+        "Available_Ships":["Ceader","Vidite"],
+        "Selected_Ships": [],
+        "New_Ships" : []
+
     }
 }

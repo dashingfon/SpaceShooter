@@ -28,49 +28,41 @@ ACHIEVEMENT = USEREVENT + 11
 GAME_SETTINGS = USEREVENT + 12
 HIGHSCORES = USEREVENT + 13
 MOVES = USEREVENT + 14
+DISPLAY_WINNER = USEREVENT + 15
 
 
 HOMESCREEN_BACKGROUND = pygame.image.load(
     "Assets\Icons\HomeScreen\SpaceShooter_homeBackground.png")
 
 SPACESHOOTER_NAME = pygame.image.load(
-    "Assets\Icons\HomeScreen\SpaceShooter.png"
-)
+    "Assets\Icons\HomeScreen\SpaceShooter.png")
 
 #HomeScreen Buttons
 STARTBUTTON = pygame.image.load(
-    "Assets\Icons\HomeScreen\StartButton.png"
-)
+    "Assets\Icons\HomeScreen\StartButton.png")
 
 EXITBUTTON = pygame.image.load(
-    "Assets\Icons\HomeScreen\ExitButton.png"
-)
+    "Assets\Icons\HomeScreen\ExitButton.png")
 
 SETTINGSBUTTON = pygame.image.load(
-    "Assets\Icons\HomeScreen\SettingsButton.png"
-)
+    "Assets\Icons\HomeScreen\SettingsButton.png")
 
 #69 by 69 button indicator
 BUTTON_INDICATOR = pygame.image.load(
-    "Assets\Icons\SelectSide\P1_indicator.png"
-)
+    "Assets\Icons\SelectSide\P1_indicator.png")
 
 #selectsides background
 SELECTSIDES_BACKGROUND = pygame.image.load(
-    "Assets\Icons\SelectSide\SelectSides_background.png"
-)
+    "Assets\Icons\SelectSide\SelectSides_background.png")
 SELECTSIDE_ELEMENT = pygame.image.load(
-    "Assets\Icons\SelectSide\Elements.png"
-)
+    "Assets\Icons\SelectSide\Elements.png")
 
 #SelectSide Buttons
 P1_CONTROLLER_IMG = pygame.image.load(
-    "Assets\Icons\SelectSide\P1_Controller.png"
-)
+    "Assets\Icons\SelectSide\P1_Controller.png")
 
 P2_CONTROLLER_IMG = pygame.image.load(
-    "Assets\Icons\SelectSide\P2_Controller.png"
-)
+    "Assets\Icons\SelectSide\P2_Controller.png")
 
 P1_POSITIONS = (
     (127,127), # left
@@ -86,86 +78,86 @@ P2_POSITIONS = (
 
 
 BACKBUTTON = pygame.image.load(
-    "Assets\Icons\SelectSide\BackButton.png"
-)
+    "Assets\Icons\SelectSide\BackButton.png")
 
 SELECTBUTTON = pygame.image.load(
-    "Assets\Icons\SelectSide\SelectButton.png"
-)
+    "Assets\Icons\SelectSide\SelectButton.png")
 
 # Controller select button indicator
-SHIP_INDICATOR = pygame.image.load(
-    "Assets\Icons\SelectShip\P1_Ship_Indicator.png"
-)
+SHIP_INDICATOR0 = pygame.image.load(
+    "Assets\Icons\SelectShip\P1_Ship_Indicator.png")
 
+SHIP_INDICATOR1 = pygame.image.load(
+    "Assets\Icons\SelectShip\P2_Ship_Indicator.png")
+
+SHIP_ICON = pygame.image.load(
+    "Assets\Icons\SelectShip\ShipLabel.png")
+
+NEW_TAG = pygame.image.load(
+    "Assets\Icons\SelectShip\NewTag.png")
+
+PLAYER_READY_IMG = pygame.image.load(
+    "Assets\Icons\SelectShip\ReadyText.png")
 
 BUTTON_GREY_OUT = pygame.image.load(
-    "Assets\Icons\SelectShip\Button_grey_out.png"
-)
+    "Assets\Icons\SelectShip\Button_grey_out.png")
 
 PlAYER_GREY_OUT = pygame.image.load(
-    "Assets\Icons\SelectShip\Player_grey_out.png"
-)
+    "Assets\Icons\SelectShip\Player_grey_out.png")
 
 # Ship buttons and images
-CEADER_IMG =
-CEADER_BUTTON_IMG =
+CEADER_IMG = pygame.image.load(
+    "Assets\Ships\Ceader\Ceader.png")
+CEADER_BUTTON_IMG = pygame.image.load(
+    "Assets\Icons\SelectShip\ceader_button.png")
 
-VIDITE_IMG = 
-VIDITE_BUTTON_IMG =
+VIDITE_IMG = pygame.image.load(
+    "Assets\Ships\Vidite\vidite_.png")
+VIDITE_BUTTON_IMG = pygame.image.load(
+    "Assets\Icons\SelectShip\vidite_button.png")
 
-QURAOS_IMG =
-QURAOS_BUTTON_IMG =
+QURAOS_IMG = pygame.image.load(
+    "Assets\Ships\Quraos\Quraos.png")
+QURAOS_BUTTON_IMG = pygame.image.load(
+    "Assets\Icons\SelectShip\quraos_button.png")
 
-RHOMOS_IMG =
-RHOMOS_BUTTON_IMG =
+RHOMOS_IMG = pygame.image.load(
+    "Assets\Ships\Rhomos\Rhomos.png")
+RHOMOS_BUTTON_IMG = pygame.image.load(
+    "Assets\Icons\SelectShip\rhomos_button.png")
 
-ELOUS_IMG =
-ELOUS_BUTTON_IMG = 
+ELOUS_IMG = pygame.image.load(
+    "Assets\Ships\Elous\Elous.png")
+ELOUS_BUTTON_IMG = pygame.image.load(
+    "Assets\Icons\SelectShip\elous_button.png")
 
-RONIR_IMG =
-RONIR_BUTTON_IMG =
+RONIR_IMG = pygame.image.load(
+    "Assets\Ships\Ronir\ronir.png")
+RONIR_BUTTON_IMG = pygame.image.load(
+    "Assets\Icons\SelectShip\ronir_button.png")
 
 # Weapon images
-BASICGUN_1 =
-BASICGUN_2 =
+BASICGUN_1 = pygame.image.load()
+BASICGUN_2 = pygame.image.load()
 
-BASIC_BOMB = 
-ADVANCEDBOMB = 
+BASIC_BOMB = pygame.image.load()
+ADVANCEDBOMB = pygame.image.load()
 
-CAPSULE_GUN =
-WIDE_CAPSULE_GUN =
+CAPSULE_GUN = pygame.image.load()
+WIDE_CAPSULE_GUN = pygame.image.load()
 
-CRYSTALBOMB_1 =
-CRYSTALBOMB_2 =
-CRYSTALBOMB_3 =
+CRYSTALBOMB_1 = pygame.image.load()
+CRYSTALBOMB_2 = pygame.image.load()
+CRYSTALBOMB_3 = pygame.image.load()
 
-CRYSTAL_GUN =
+CRYSTAL_GUN = pygame.image.load()
 
-MISSILE_1 = 
-MISSILE_2 =
-MISSILE_3 =
+MISSILE_1 = pygame.image.load()
+MISSILE_2 = pygame.image.load()
+MISSILE_3 = pygame.image.load()
 
 
 SHIPS = {
-    'Buttons_IMG':{
-        "Ceader": ,
-        'Vidite': ,
-        'Quraos': ,
-        'Rhomos': ,
-        'Elous': ,
-        'Ronir': 
-
-    },
-    'Ship_IMG': {
-       "Ceader": ,
-        'Vidite': ,
-        'Quraos': ,
-        'Rhomos': ,
-        'Elous': ,
-        'Ronir': 
-
-    },
     'Weapons':{
         "Ceader": ,
         'Vidite': ,
@@ -187,9 +179,6 @@ SHIPS = {
 }
 
    WEAPONS = {
-       'image' : {
-
-       },
        'damage' :{
 
        },

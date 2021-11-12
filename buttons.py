@@ -59,42 +59,30 @@ class Button:
 
 
 class Icon:
-    def __init__(self,image,location,mobile):
+    def __init__(self,image,location):
         self.image = image
         self.location = location
-        self.mobile = mobile
         self.rect_ = image.get_rect()
 
     def display(self,Surface):
         Surface.blit(self.image,self.location)
 
-    def move(self,distance,Dir):
-        if self.mobile == True:
-            if Dir == 'U':
-                self.rect_.top -= distance
-            if Dir == 'D':
-                self.rect_.top += distance
-            if Dir == 'L':
-                self.rect_.left -= distance
-            if Dir == 'R':
-                self.rect_.left += distance
 
 class Node:
     def __init__(self,node,neighbours):
         self.node = node
-        self.neighbours = neighbours
-        if len(neighbours) == 2:
-            self.left, self.right = neighbours[0], neighbours[1]
-        if len(neighbours) == 4:
-            self.left, self.right = neighbours[0], neighbours[1]
-            self.up, self.down = neighbours[2], neighbours[3]
+        self.neighbours = neighbours 
+
+        self.left, self.right = neighbours[0], neighbours[1]
+        self.up, self.down = neighbours[2], neighbours[3]
         
 
 class Graph:
-    def __init__(self,vertices):
+    def __init__(self,nodes):
         GraphGrid = {}
-        for i in vertices:
+        for i in nodes:
             GraphGrid[i.node] = i.neighbours
+        self.grid = GraphGrid
         
         self.selected = next(iter(GraphGrid))
     
