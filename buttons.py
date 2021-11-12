@@ -3,7 +3,7 @@ from pygame.locals import *
 import SP_configuration as Cfg
 
 
-class Button():
+class Button:
     def __init__(self,image,destination,location):
         self.image = image
         self.rect_ = image.get_rect()
@@ -78,6 +78,3 @@ class Icon:
                 self.rect_.left -= distance
             if Dir == 'R':
                 self.rect_.left += distance
-
-
-
