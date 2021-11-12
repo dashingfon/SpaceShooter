@@ -78,3 +78,27 @@ class Icon:
                 self.rect_.left -= distance
             if Dir == 'R':
                 self.rect_.left += distance
+
+class Node:
+    def __init__(self,node,neighbours):
+        self.node = node
+        self.neighbours = neighbours
+        if len(neighbours) == 2:
+            self.left, self.right = neighbours[0], neighbours[1]
+        if len(neighbours) == 4:
+            self.left, self.right = neighbours[0], neighbours[1]
+            self.up, self.down = neighbours[2], neighbours[3]
+        
+
+class Graph:
+    def __init__(self,vertices):
+        GraphGrid = {}
+        for i in vertices:
+            GraphGrid[i.node] = i.neighbours
+        
+        self.selected = next(iter(GraphGrid))
+    
+    def move(self,node_2_move):
+        self.selected = node_2_move
+
+        

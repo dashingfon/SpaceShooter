@@ -24,6 +24,8 @@ P2_pointer = 1
 
 pygame.event.post(pygame.event.Event(Cfg.HOMESCREEN))
 
+GameBoard = []
+
 while True:
 
     for event in pygame.event.get():
