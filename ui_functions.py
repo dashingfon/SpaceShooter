@@ -142,8 +142,9 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                     
                 if event.key == K_KP_ENTER or event.key == K_SPACE:                  
                     SELECTSIDE_GRID[SelectSide_indicator].select()
-                    Active = False
-                    break
+                    if SELECTSIDE_GRID[SelectSide_indicator].active == True:  
+                        Active = False
+                        break
          
         pygame.display.update()            
         if game_parameter:
