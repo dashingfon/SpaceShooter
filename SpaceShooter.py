@@ -24,7 +24,7 @@ P2_pointer = 1
 
 pygame.event.post(pygame.event.Event(Cfg.HOMESCREEN))
 
-GameBoard = []
+GameBoard = {}
 
 while True:
 
@@ -46,8 +46,21 @@ while True:
             if game_parameters:
                 P1_pointer, P2_pointer = game_parameters[1], game_parameters[2]
                 Mode = game_parameters[0]
+                GameBoard['SelectSides'] = game_parameters
 
-    
+        if event.type == Cfg.SELECTSHIP_1P:
+            GameBoard['Player1_ship'] = UI.SelectShip_1P(
+                WindowSurface,Cfg.SELECTSIDES_BACKGROUND)
+
+            with open('GameSettings.json') as GS:
+                GameSettings = json.load(GS)
+                SelectedShips = GameSettings['Game_Settings']['Selected_Ships']
+            if GameBoard['Player1_ship'] not in SelectedShips:
+                GameSettings['Game_Settings']['Selected_Ships'].append(GameBoard['Player1_ship'])
+                with open('GameSettings.json','w') as GS:
+                    json.dump(GameSettings, GS)
+                
+
     pygame.display.update()
     MainClock.tick(Cfg.FPS)
 

@@ -94,7 +94,7 @@ SHIP_ICON = pygame.image.load(
     "Assets\Icons\SelectShip\ShipLabel.png")
 
 NEW_TAG = pygame.image.load(
-    "Assets\Icons\SelectShip\NewTag.png")
+    r"Assets\Icons\SelectShip\NewTag.png")
 
 PLAYER_READY_IMG = pygame.image.load(
     "Assets\Icons\SelectShip\ReadyText.png")
@@ -112,9 +112,9 @@ CEADER_BUTTON_IMG = pygame.image.load(
     "Assets\Icons\SelectShip\ceader_button.png")
 
 VIDITE_IMG = pygame.image.load(
-    "Assets\Ships\Vidite\vidite_.png")
+    r"Assets\Ships\Vidite\vidite_.png")
 VIDITE_BUTTON_IMG = pygame.image.load(
-    "Assets\Icons\SelectShip\vidite_button.png")
+    r"Assets\Icons\SelectShip\vidite_button.png")
 
 QURAOS_IMG = pygame.image.load(
     "Assets\Ships\Quraos\Quraos.png")
@@ -124,7 +124,7 @@ QURAOS_BUTTON_IMG = pygame.image.load(
 RHOMOS_IMG = pygame.image.load(
     "Assets\Ships\Rhomos\Rhomos.png")
 RHOMOS_BUTTON_IMG = pygame.image.load(
-    "Assets\Icons\SelectShip\rhomos_button.png")
+    r"Assets\Icons\SelectShip\rhomos_button.png")
 
 ELOUS_IMG = pygame.image.load(
     "Assets\Ships\Elous\Elous.png")
@@ -132,10 +132,13 @@ ELOUS_BUTTON_IMG = pygame.image.load(
     "Assets\Icons\SelectShip\elous_button.png")
 
 RONIR_IMG = pygame.image.load(
-    "Assets\Ships\Ronir\ronir.png")
+    r"Assets\Ships\Ronir\ronir.png")
 RONIR_BUTTON_IMG = pygame.image.load(
-    "Assets\Icons\SelectShip\ronir_button.png")
+    r"Assets\Icons\SelectShip\ronir_button.png")
 
+
+
+'''
 # Weapon images
 BASICGUN_1 = pygame.image.load()
 BASICGUN_2 = pygame.image.load()
@@ -155,8 +158,11 @@ CRYSTAL_GUN = pygame.image.load()
 MISSILE_1 = pygame.image.load()
 MISSILE_2 = pygame.image.load()
 MISSILE_3 = pygame.image.load()
+'''
 
 
+
+'''
 SHIPS = {
     'Weapons':{
         "Ceader": ,
@@ -178,13 +184,14 @@ SHIPS = {
     }
 }
 
-   WEAPONS = {
-       'damage' :{
+WEAPONS = {
+    'damage' :{
 
-       },
-       'speed' : {
+    },
+    'speed' : {
 
-       }
-   } 
+    }
+} 
 
 
+'''

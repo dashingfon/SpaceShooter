@@ -55,6 +55,12 @@ class Button:
     def deactivate(self):
         self.active = False
 
+    def indicate_at_loc(self,surface,indicator,location):
+        if self.active == True:
+            indicator_rect = indicator.get_rect()
+            indicator.x, indicator.y = location[0], location[1]
+
+            surface.blit(indicator,indicator_rect)
 
 
 
@@ -69,7 +75,8 @@ class Icon:
 
 
 class Node:
-    def __init__(self,node,neighbours):
+    def __init__(self,name,node,neighbours):
+        self.name = name
         self.node = node
         self.neighbours = neighbours 
 
@@ -83,8 +90,9 @@ class Graph:
         for i in nodes:
             GraphGrid[i.node] = i.neighbours
         self.grid = GraphGrid
+        self.nodes = nodes
         
-        self.selected = next(iter(GraphGrid))
+        self.selected = nodes[0].node
     
     def move(self,node_2_move):
         self.selected = node_2_move

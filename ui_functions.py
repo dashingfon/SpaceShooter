@@ -1,6 +1,7 @@
 from buttons import Button, Graph, Icon, Node
 import SP_configuration as Cfg
 
+import json
 import pygame, sys
 from pygame.locals import *
 
@@ -49,6 +50,7 @@ def HomeScreen(Surface,homeBg):
             
 
 def get_mode(point1,point2):
+
     parallel = point1[0] == point2[0] #parallel when both x are equal
     point1_com = point1 == Cfg.P1_POSITIONS[1] # controller 1 is in the computer position
     point2_com = point2 == Cfg.P2_POSITIONS[1] # controller 2 is in the computer position
@@ -72,8 +74,6 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
     SelectSide_pointer = 2
     
     Active = True
-
-    game_parameter = []
 
     while Active:
 
@@ -141,15 +141,25 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                     SELECTSIDE_GRID[SelectSide_indicator].select()
                     if SELECTSIDE_GRID[SelectSide_indicator].active == True:  
                         Active = False
-                        break
          
         pygame.display.update()            
-        if game_parameter:
-            return game_parameter
+    return [mode,P1_p,P2_p]
               
 def get_new_ships():
 
+    with open('GameSettings.json') as GS:
+        GameSettings = json.load(GS)
+        new_ships = GameSettings['Game_Settings']['New_Ships']
+    
+    return new_ships
+
 def get_available_ships():
+
+    with open('GameSettings.json') as GS:
+        GameSettings = json.load(GS)
+        available_ships = GameSettings['Game_Settings']['Available_Ships']
+    
+    return available_ships
     
 def SelectShip_1P(Surface,SelectSideBg):
 
@@ -177,35 +187,35 @@ def SelectShip_1P(Surface,SelectSideBg):
         BackButton,
         SettingsButton]
 
-    CeaderNode = Node(CeaderButton,[
-        ElousButton,
-        QuraosButton,
+    CeaderNode = Node(CeaderButton[1],CeaderButton[0],[
+        ElousButton[0],
+        QuraosButton[0],
         BackButton,
-        ViditeButton])
-    ViditeNode = Node(ViditeButton,[
-        RonirButton,
-        RhomosButton,
-        CeaderButton,
+        ViditeButton[0]])
+    ViditeNode = Node(ViditeButton[1],ViditeButton[0],[
+        RonirButton[0],
+        RhomosButton[0],
+        CeaderButton[0],
         BackButton])
-    QuraosNode = Node(QuraosButton,[
-        CeaderButton,
-        ElousButton,
+    QuraosNode = Node(QuraosButton[1],QuraosButton[0],[
+        CeaderButton[0],
+        ElousButton[0],
         SettingsButton,
-        RhomosButton])
-    RhomosNode = Node(RhomosButton,[
-        ViditeButton,
-        RonirButton,
-        QuraosButton,
+        RhomosButton[0]])
+    RhomosNode = Node(RhomosButton[1],RhomosButton[0],[
+        ViditeButton[0],
+        RonirButton[0],
+        QuraosButton[0],
         BackButton])
-    ElousNode = Node(ElousButton,[
-        QuraosButton,
-        CeaderButton,
+    ElousNode = Node(ElousButton[1],ElousButton[0],[
+        QuraosButton[0],
+        CeaderButton[0],
         SettingsButton,
-        RonirButton])
-    RonirNode = Node(RonirButton,[
-        RhomosButton,
-        ViditeButton,
-        ElousButton,
+        RonirButton[0]])
+    RonirNode = Node(RonirButton[1],RonirButton[0],[
+        RhomosButton[0],
+        ViditeButton[0],
+        ElousButton[0],
         SettingsButton])
 
     Nodes = [
@@ -218,18 +228,57 @@ def SelectShip_1P(Surface,SelectSideBg):
 
     P1_SELECTSHIP_GRID = Graph(Nodes)
 
+    new_ships = get_new_ships()
+    available_ships = get_available_ships()
+
     Active = True
 
     while Active:
         Surface.blit(SelectSideBg,(0,0))
         ShipIcon.display(Surface)
 
-        for Ship in ShipButtons:
-            Ship[0].display(Surface)
-        
-        for buttons in ControlButtons:
-            buttons.display(Surface)
+        P1_SELECTSHIP_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR0)
 
+        for Ship in ShipButtons:
+            if Ship[1] in available_ships:
+                Ship[0].active = True
+                Ship[0].display(Surface)
+            else:
+                Ship[0].active = False
+                Ship[0].display(Surface)
+
+            if Ship[1] in new_ships:
+                Ship[0].indicate_at_loc(
+                    Surface,Cfg.NEW_TAG,(Ship.rect_.left - 2,Ship.rect_.top - 65))
+        
+        for button in ControlButtons:
+            button.display(Surface)
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYUP:
+                if event.key == K_a:
+                    P1_SELECTSHIP_GRID.move(P1_SELECTSHIP_GRID.selected.left)
+
+                if event.key == K_d:
+                    P1_SELECTSHIP_GRID.move(P1_SELECTSHIP_GRID.selected.right)
+
+                if event.key == K_w:
+                    P1_SELECTSHIP_GRID.move(P1_SELECTSHIP_GRID.selected.up)
+
+                if event.key == K_s:
+                    P1_SELECTSHIP_GRID.move(P1_SELECTSHIP_GRID.selected.down)
+
+                if event.key == K_SPACE:
+                    P1_SELECTSHIP_GRID.selected.node.select()
+                    if P1_SELECTSHIP_GRID.selected.node.active == True:
+                        Active = False
+
+        pygame.display.update()
+    return P1_SELECTSHIP_GRID.selected.name
+'''
 def SelectShip_2P():
 
     P2_SELECTSHIP_GRID = [
@@ -249,3 +298,4 @@ def Settings():
 
     SETTINGS_GRID = (GameSettings,Moves,HighScores,Achievement,Backbutton)
 
+'''
