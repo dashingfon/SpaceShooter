@@ -74,27 +74,23 @@ class Icon:
         Surface.blit(self.image,self.location)
 
 
-class Node:
-    def __init__(self,name,node,neighbours):
-        self.name = name
-        self.node = node
-        self.neighbours = neighbours 
-
-        self.left, self.right = neighbours[0], neighbours[1]
-        self.up, self.down = neighbours[2], neighbours[3]
-        
-
 class Graph:
     def __init__(self,nodes):
         GraphGrid = {}
         for i in nodes:
-            GraphGrid[i.node] = i.neighbours
+            GraphGrid[i[0]] = i[1]
         self.grid = GraphGrid
-        self.nodes = nodes
-        
-        self.selected = nodes[0].node
+        self.selected = next(iter(self.grid))
     
-    def move(self,node_2_move):
-        self.selected = node_2_move
+    def move_left(self):
+        self.selected = self.grid[self.selected][0]
 
+    def move_right(self):
+        self.selected = self.grid[self.selected][1]
+
+    def move_up(self):
+        self.selected = self.grid[self.selected][2]
+
+    def move_down(self):
+        self.selected = self.grid[self.selected][3]
         

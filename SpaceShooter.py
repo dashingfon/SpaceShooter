@@ -43,6 +43,7 @@ while True:
             Cfg.SELECTSIDE_ELEMENT,
             P1_pointer,
             P2_pointer)
+            
             if game_parameters:
                 P1_pointer, P2_pointer = game_parameters[1], game_parameters[2]
                 Mode = game_parameters[0]
@@ -55,11 +56,38 @@ while True:
             with open('GameSettings.json') as GS:
                 GameSettings = json.load(GS)
                 SelectedShips = GameSettings['Game_Settings']['Selected_Ships']
-            if GameBoard['Player1_ship'] not in SelectedShips:
-                GameSettings['Game_Settings']['Selected_Ships'].append(GameBoard['Player1_ship'])
-                with open('GameSettings.json','w') as GS:
-                    json.dump(GameSettings, GS)
+            
+            if GameBoard['Player1_ship'] not in SelectedShips and GameBoard['Player1_ship']:
+                GameSettings['Game_Settings']['Selected_Ships'].append(
+                    GameBoard['Player1_ship'])
                 
+                with open('GameSettings.json','w') as GS:
+                    json.dump(GameSettings, GS,indent = 2)
+                
+
+        if event.type == Cfg.SELECTSHIP_2P:
+            Selected_ships = UI.SelectShip_2P(
+                WindowSurface,Cfg.SELECTSIDES_BACKGROUND)
+
+            if Selected_ships:
+                GameBoard['Player1_ship'], GameBoard['Player2_ship'] = Selected_ships
+
+                with open('GameSettings.json') as GS:
+                    GameSettings = json.load(GS)
+                    SelectedShips = GameSettings['Game_Settings']['Selected_Ships']
+                
+                if GameBoard['Player1_ship'] not in SelectedShips and GameBoard['Player1_ship']:
+                    GameSettings['Game_Settings']['Selected_Ships'].append(
+                        GameBoard['Player1_ship'])
+
+                if GameBoard['Player2_ship'] not in SelectedShips:
+                    GameSettings['Game_Settings']['Selected_Ships'].append(
+                        GameBoard['Player2_ship'])        
+                    
+                    with open('GameSettings.json','w') as GS:
+                        json.dump(GameSettings, GS, indent = 2)
+
+
 
     pygame.display.update()
     MainClock.tick(Cfg.FPS)

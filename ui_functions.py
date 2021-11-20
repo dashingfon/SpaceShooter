@@ -1,4 +1,4 @@
-from buttons import Button, Graph, Icon, Node
+from buttons import Button, Graph, Icon
 import SP_configuration as Cfg
 
 import json
@@ -163,73 +163,50 @@ def get_available_ships():
     
 def SelectShip_1P(Surface,SelectSideBg):
 
-    ShipIcon = Icon(Cfg.SHIP_ICON,(474,63))
+    ShipIcon = Icon(Cfg.SHIP_ICON,(404,36))
 
-    CeaderButton = [Button(Cfg.CEADER_BUTTON_IMG,Cfg.SELECTSTAGE,(119,154)),'Ceader']
-    ViditeButton = [Button(Cfg.VIDITE_BUTTON_IMG,Cfg.SELECTSTAGE,(289,154)),'Vidite']
-    QuraosButton = [Button(Cfg.QURAOS_BUTTON_IMG,Cfg.SELECTSTAGE,(119,279)),'Quraos']
-    RhomosButton = [Button(Cfg.RHOMOS_BUTTON_IMG,Cfg.SELECTSTAGE,(289,279)),'Rhomos']
-    ElousButton = [Button(Cfg.ELOUS_BUTTON_IMG,Cfg.SELECTSTAGE,(119,397)),'Elous']
-    RonirButton = [Button(Cfg.RONIR_BUTTON_IMG,Cfg.SELECTSTAGE,(289,397)),'Ronir']
+    CeaderButton = Button(Cfg.CEADER_BUTTON_IMG,Cfg.SELECTSTAGE,(265,127))
+    ViditeButton = Button(Cfg.VIDITE_BUTTON_IMG,Cfg.SELECTSTAGE,(265,266))
+    QuraosButton = Button(Cfg.QURAOS_BUTTON_IMG,Cfg.SELECTSTAGE,(423,127))
+    RhomosButton = Button(Cfg.RHOMOS_BUTTON_IMG,Cfg.SELECTSTAGE,(423,266))
+    ElousButton = Button(Cfg.ELOUS_BUTTON_IMG,Cfg.SELECTSTAGE,(579,127))
+    RonirButton = Button(Cfg.RONIR_BUTTON_IMG,Cfg.SELECTSTAGE,(579,266))
 
-    BackButton = Button(Cfg.BACKBUTTON,Cfg.SELECTSIDES,(426,473))
-    SettingsButton = Button(Cfg.SETTINGSBUTTON,Cfg.SETTINGS,(524,473))
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SELECTSIDES,(392,438))
+    SettingsButton = Button(Cfg.SETTINGSBUTTON,Cfg.SETTINGS,(489,438))
 
-    ShipButtons = [
-        CeaderButton,
-        ViditeButton,
-        QuraosButton,
-        RhomosButton,
-        ElousButton,
-        RonirButton]
+    ShipButton = {
+        CeaderButton : Cfg.CEADER,
+        ViditeButton : Cfg.VIDITE,
+        QuraosButton : Cfg.QURAOS,
+        RhomosButton : Cfg.RHOMOS,
+        ElousButton : Cfg.ELOUS,
+        RonirButton : Cfg.RONIR 
+        }
+       
 
-    ControlButtons = [
+    ControlButton = [
         BackButton,
-        SettingsButton]
+        SettingsButton
+    ]
 
-    CeaderNode = Node(CeaderButton[1],CeaderButton[0],[
-        ElousButton[0],
-        QuraosButton[0],
-        BackButton,
-        ViditeButton[0]])
-    ViditeNode = Node(ViditeButton[1],ViditeButton[0],[
-        RonirButton[0],
-        RhomosButton[0],
-        CeaderButton[0],
-        BackButton])
-    QuraosNode = Node(QuraosButton[1],QuraosButton[0],[
-        CeaderButton[0],
-        ElousButton[0],
-        SettingsButton,
-        RhomosButton[0]])
-    RhomosNode = Node(RhomosButton[1],RhomosButton[0],[
-        ViditeButton[0],
-        RonirButton[0],
-        QuraosButton[0],
-        BackButton])
-    ElousNode = Node(ElousButton[1],ElousButton[0],[
-        QuraosButton[0],
-        CeaderButton[0],
-        SettingsButton,
-        RonirButton[0]])
-    RonirNode = Node(RonirButton[1],RonirButton[0],[
-        RhomosButton[0],
-        ViditeButton[0],
-        ElousButton[0],
-        SettingsButton])
-
-    Nodes = [
-        CeaderNode,
-        ViditeNode,
-        QuraosNode,
-        RhomosNode,
-        ElousNode,
-        RonirNode]
-
-    P1_SELECTSHIP_GRID = Graph(Nodes)
+    P1_GRID = Graph(
+        [
+        [CeaderButton, [ElousButton,QuraosButton,BackButton,ViditeButton]],
+        [ViditeButton, [RonirButton,RhomosButton,CeaderButton,BackButton]],
+        [QuraosButton, [CeaderButton,ElousButton,BackButton,RhomosButton]],
+        [RhomosButton, [ViditeButton,ElousButton,QuraosButton,SettingsButton]],
+        [ElousButton, [QuraosButton,CeaderButton,SettingsButton,RonirButton]],
+        [RonirButton, [RhomosButton,ViditeButton,ElousButton,SettingsButton]],
+        [BackButton, [SettingsButton,SettingsButton,RhomosButton,CeaderButton]],
+        [SettingsButton, [BackButton,BackButton,RhomosButton,ElousButton]]
+        ]   
+    )
 
     new_ships = get_new_ships()
     available_ships = get_available_ships()
+
+    P1_Ship = ''
 
     Active = True
 
@@ -237,21 +214,25 @@ def SelectShip_1P(Surface,SelectSideBg):
         Surface.blit(SelectSideBg,(0,0))
         ShipIcon.display(Surface)
 
-        P1_SELECTSHIP_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR0)
+        if P1_GRID.selected not in ControlButton:
+            P1_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR0)
+        else:
+            P1_GRID.selected.indicate(Surface,Cfg.BUTTON_INDICATOR)
 
-        for Ship in ShipButtons:
-            if Ship[1] in available_ships:
-                Ship[0].active = True
-                Ship[0].display(Surface)
+        for Ship in ShipButton.keys():
+            if ShipButton[Ship] in available_ships:
+                Ship.active = True
+                Ship.display(Surface)
             else:
-                Ship[0].active = False
-                Ship[0].display(Surface)
+                Ship.greyed_out = Cfg.PlAYER_GREY_OUT
+                Ship.active = False
+                Ship.display(Surface)
 
-            if Ship[1] in new_ships:
-                Ship[0].indicate_at_loc(
-                    Surface,Cfg.NEW_TAG,(Ship.rect_.left - 2,Ship.rect_.top - 65))
+            if Ship in new_ships:
+                Ship.indicate_at_loc(
+                    Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
         
-        for button in ControlButtons:
+        for button in ControlButton:   
             button.display(Surface)
 
         for event in pygame.event.get():
@@ -259,43 +240,205 @@ def SelectShip_1P(Surface,SelectSideBg):
                 pygame.quit()
                 sys.exit()
             if event.type == KEYUP:
-                if event.key == K_a:
-                    P1_SELECTSHIP_GRID.move(P1_SELECTSHIP_GRID.selected.left)
+                if event.key == K_a and P1_GRID.grid[P1_GRID.selected][0].active == True:
+                    P1_GRID.move_left()
 
-                if event.key == K_d:
-                    P1_SELECTSHIP_GRID.move(P1_SELECTSHIP_GRID.selected.right)
+                if event.key == K_d and P1_GRID.grid[P1_GRID.selected][1].active == True:
+                    P1_GRID.move_right()
 
-                if event.key == K_w:
-                    P1_SELECTSHIP_GRID.move(P1_SELECTSHIP_GRID.selected.up)
+                if event.key == K_w and P1_GRID.grid[P1_GRID.selected][2].active == True:
+                    P1_GRID.move_up()
 
-                if event.key == K_s:
-                    P1_SELECTSHIP_GRID.move(P1_SELECTSHIP_GRID.selected.down)
+                if event.key == K_s and P1_GRID.grid[P1_GRID.selected][3].active == True:
+                    P1_GRID.move_down()
 
                 if event.key == K_SPACE:
-                    P1_SELECTSHIP_GRID.selected.node.select()
-                    if P1_SELECTSHIP_GRID.selected.node.active == True:
+                    P1_GRID.selected.select()
+                    if P1_GRID.selected.active == True:
+                        if P1_GRID.selected not in ControlButton:
+                            P1_Ship = ShipButton[P1_GRID.selected]
                         Active = False
 
         pygame.display.update()
-    return P1_SELECTSHIP_GRID.selected.name
-'''
-def SelectShip_2P():
 
-    P2_SELECTSHIP_GRID = [
-        [   [Ceader,Vidite],
-            [Quraos,Rhomos],
-            [Elous,Ronir],
-            [Backbutton,SettingsButton]           
-        ],
-        [   [Ceader,Vidite],
-            [Quraos,Rhomos],
-            [Elous,Ronir],
-            [Backbutton,SettingsButton]
-        ]
+    return P1_Ship
+
+def SelectShip_2P(Surface,SelectSideBg):
+
+    ShipIcon = Icon(Cfg.SHIP_ICON,(404,36))
+
+    CeaderButton_P1 = Button(Cfg.CEADER_BUTTON_IMG,Cfg.PLAYGAME,(66,113))
+    ViditeButton_P1 = Button(Cfg.VIDITE_BUTTON_IMG,Cfg.PLAYGAME,(236,113))
+    QuraosButton_P1 = Button(Cfg.QURAOS_BUTTON_IMG,Cfg.PLAYGAME,(66,236))
+    RhomosButton_P1 = Button(Cfg.RHOMOS_BUTTON_IMG,Cfg.PLAYGAME,(236,236))
+    ElousButton_P1 = Button(Cfg.ELOUS_BUTTON_IMG,Cfg.PLAYGAME,(66,354))
+    RonirButton_P1 = Button(Cfg.RONIR_BUTTON_IMG,Cfg.PLAYGAME,(236,354))
+
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SELECTSIDES,(392,438))
+    SettingsButton = Button(Cfg.SETTINGSBUTTON,Cfg.SETTINGS,(489,438))
+
+    CeaderButton_P2 = Button(Cfg.CEADER_BUTTON_IMG,Cfg.PLAYGAME,(621,113))
+    ViditeButton_P2 = Button(Cfg.VIDITE_BUTTON_IMG,Cfg.PLAYGAME,(787,113))
+    QuraosButton_P2 = Button(Cfg.QURAOS_BUTTON_IMG,Cfg.PLAYGAME,(621,236))
+    RhomosButton_P2 = Button(Cfg.RHOMOS_BUTTON_IMG,Cfg.PLAYGAME,(787,236))
+    ElousButton_P2 = Button(Cfg.ELOUS_BUTTON_IMG,Cfg.PLAYGAME,(621,354))
+    RonirButton_P2 = Button(Cfg.RONIR_BUTTON_IMG,Cfg.PLAYGAME,(787,354))
+
+    ShipButton_P1 = {
+        CeaderButton_P1 : Cfg.CEADER,
+        ViditeButton_P1 : Cfg.VIDITE,
+        QuraosButton_P1 : Cfg.QURAOS,
+        RhomosButton_P1 : Cfg.RHOMOS,
+        ElousButton_P1 : Cfg.ELOUS,
+        RonirButton_P1 : Cfg.RONIR 
+        }
+
+    ShipButton_P2 = {
+        CeaderButton_P2 : Cfg.CEADER,
+        ViditeButton_P2 : Cfg.VIDITE,
+        QuraosButton_P2 : Cfg.QURAOS,
+        RhomosButton_P2 : Cfg.RHOMOS,
+        ElousButton_P2 : Cfg.ELOUS,
+        RonirButton_P2 : Cfg.RONIR 
+        }   
+
+    ControlButton = [
+        BackButton,
+        SettingsButton
     ]
- 
-def Settings():
 
-    SETTINGS_GRID = (GameSettings,Moves,HighScores,Achievement,Backbutton)
+    P1_GRID = Graph(
+        [
+        [CeaderButton_P1, [ViditeButton_P1,ViditeButton_P1,BackButton,QuraosButton_P1]],
+        [ViditeButton_P1, [CeaderButton_P1,CeaderButton_P1,RhomosButton_P1,RonirButton_P1]],
+        [QuraosButton_P1, [RhomosButton_P1,RhomosButton_P1,CeaderButton_P1,ElousButton_P1]],
+        [RhomosButton_P1, [QuraosButton_P1,QuraosButton_P1,ViditeButton_P1,RonirButton_P1]],
+        [ElousButton_P1, [RonirButton_P1,RonirButton_P1,QuraosButton_P1,BackButton]],
+        [RonirButton_P1, [ElousButton_P1,ElousButton_P1,RhomosButton_P1,BackButton]],
+        [BackButton, [SettingsButton,SettingsButton,RonirButton_P1,ViditeButton_P1]],
+        [SettingsButton, [BackButton,BackButton,SettingsButton,SettingsButton]]
+        ]   
+    )
 
-'''
+    P2_GRID = Graph(
+        [
+        [CeaderButton_P2, [ViditeButton_P2,ViditeButton_P2,SettingsButton,QuraosButton_P2]],
+        [ViditeButton_P2, [CeaderButton_P2,CeaderButton_P2,RhomosButton_P2,RonirButton_P2]],
+        [QuraosButton_P2, [RhomosButton_P2,RhomosButton_P2,CeaderButton_P2,ElousButton_P2]],
+        [RhomosButton_P2, [QuraosButton_P2,QuraosButton_P2,ViditeButton_P2,RonirButton_P2]],
+        [ElousButton_P2, [RonirButton_P2,RonirButton_P2,QuraosButton_P2,BackButton]],
+        [RonirButton_P2, [ElousButton_P2,ElousButton_P2,RhomosButton_P2,BackButton]],
+        [BackButton, [SettingsButton,SettingsButton,BackButton,BackButton]],
+        [SettingsButton, [BackButton,BackButton,ElousButton_P2,CeaderButton_P2]]
+        ]   
+    )
+
+    new_ships = get_new_ships()
+    available_ships = get_available_ships()
+
+    P1_Ship = ''
+    P2_Ship = ''
+
+    Active = True 
+
+    while Active:
+        Surface.blit(SelectSideBg,(0,0))
+        ShipIcon.display(Surface)
+
+        if P1_GRID.selected not in ControlButton:
+            P1_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR0)
+        else:
+            P1_GRID.selected.indicate(Surface,Cfg.BUTTON_INDICATOR)
+
+        for Ship in ShipButton_P1.keys():
+            if ShipButton_P1[Ship] in available_ships:
+                Ship.active = True
+                Ship.display(Surface)
+            else:
+                Ship.greyed_out = Cfg.PlAYER_GREY_OUT
+                Ship.active = False
+                Ship.display(Surface)
+
+            if Ship in new_ships:
+                Ship.indicate_at_loc(
+                    Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
+
+        if P2_GRID.selected not in ControlButton:
+            P2_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR1)
+        else:
+            P2_GRID.selected.indicate(Surface,Cfg.BUTTON_INDICATOR0)
+
+        for Ship in ShipButton_P2.keys():
+            if ShipButton_P2[Ship] in available_ships:
+                Ship.active = True
+                Ship.display(Surface)
+            else:
+                Ship.greyed_out = Cfg.PlAYER_GREY_OUT
+                Ship.active = False
+                Ship.display(Surface)
+
+            if Ship in new_ships:
+                Ship.indicate_at_loc(
+                    Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
+        
+        for button in ControlButton:   
+            button.display(Surface)
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYUP:
+                if event.key == K_a and P1_GRID.grid[P1_GRID.selected][0].active == True:
+                    P1_GRID.move_left()
+
+                if event.key == K_d and P1_GRID.grid[P1_GRID.selected][1].active == True:
+                    P1_GRID.move_right()
+
+                if event.key == K_w and P1_GRID.grid[P1_GRID.selected][2].active == True:
+                    P1_GRID.move_up()
+
+                if event.key == K_s and P1_GRID.grid[P1_GRID.selected][3].active == True:
+                    P1_GRID.move_down()
+
+                if event.key == K_SPACE:
+                    P1_GRID.selected.select()
+                    if P1_GRID.selected.active == True:
+                        if P1_GRID.selected not in ControlButton:
+                            P1_Ship = ShipButton_P1[P1_GRID.selected]
+                        Active = False
+                    
+                if event.key == K_LEFT and P2_GRID.grid[P2_GRID.selected][0].active == True:
+                    P2_GRID.move_left()
+
+                if event.key == K_RIGHT and P2_GRID.grid[P2_GRID.selected][1].active == True:
+                    P2_GRID.move_right()
+
+                if event.key == K_UP and P2_GRID.grid[P2_GRID.selected][2].active == True:
+                    P2_GRID.move_up()
+
+                if event.key == K_DOWN and P2_GRID.grid[P2_GRID.selected][3].active == True:
+                    P2_GRID.move_down()
+
+                if event.key == K_KP_ENTER:
+                    P2_GRID.selected.select()
+                    P2_Ship = ShipButton_P2[P2_GRID.selected]
+                    if P2_GRID.selected.active == True:
+                        if P2_GRID.selected not in ControlButton:
+                            P2_Ship = ShipButton_P2[P2_GRID.selected]
+                        Active = False                
+
+        pygame.display.update()
+    if P1_Ship and P2_Ship:
+        return [ShipButton_P1[P1_GRID.selected],ShipButton_P2[P2_GRID.selected]]
+    else:
+        return None
+
+
+def Settings(Mode):
+    Active = True 
+
+    while Active:
+        SETTINGS_GRID = Graph (
+
+        )

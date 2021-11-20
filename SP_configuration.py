@@ -51,6 +51,9 @@ SETTINGSBUTTON = pygame.image.load(
 BUTTON_INDICATOR = pygame.image.load(
     "Assets\Icons\SelectSide\P1_indicator.png")
 
+BUTTON_INDICATOR0 = pygame.image.load(
+    "Assets\Icons\SelectSide\P2_indicator.png")
+
 #selectsides background
 SELECTSIDES_BACKGROUND = pygame.image.load(
     "Assets\Icons\SelectSide\SelectSides_background.png")
@@ -136,7 +139,12 @@ RONIR_IMG = pygame.image.load(
 RONIR_BUTTON_IMG = pygame.image.load(
     r"Assets\Icons\SelectShip\ronir_button.png")
 
-
+CEADER = 'Ceader'
+VIDITE = 'Vidite'
+QURAOS = 'Quraos'
+RHOMOS = 'Rhomos'
+ELOUS = 'Elous'
+RONIR = 'Ronir'
 
 '''
 # Weapon images

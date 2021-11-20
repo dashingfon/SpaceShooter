@@ -1,1 +1,1 @@
-MainClock = pygame.time.Clock()
+buttons.Button
