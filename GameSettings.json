@@ -1,1 +1,9 @@
-{"Game_Settings": {"HighScore": {}, "Achievement": [], "Volume": 0, "Time_2p": 5, "Available_Ships": ["Ceader", "Vidite"], "Selected_Ships": ["Ceader", "Vidite"], "New_Ships": []}}
+{"Game_Settings": 
+    {"HighScore": {}, 
+    "Achievement": [], 
+    "Volume": 0, 
+    "Time_2p": 5, 
+    "Available_Ships": ["Ceader", "Vidite"], 
+    "Selected_Ships": ["Ceader", "Vidite"], 
+    "New_Ships": []}
+}

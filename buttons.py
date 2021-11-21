@@ -62,8 +62,11 @@ class Button:
 
             surface.blit(indicator,indicator_rect)
 
-
-
+    def toggle(self,variable,Pointer,Static,*states):
+        Pointer += 1
+        variable = states[Pointer % Static]
+        return variable
+        
 class Icon:
     def __init__(self,image,location):
         self.image = image

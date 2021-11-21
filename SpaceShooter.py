@@ -87,6 +87,8 @@ while True:
                     with open('GameSettings.json','w') as GS:
                         json.dump(GameSettings, GS, indent = 2)
 
+        if event.type == Cfg.SETTINGS:
+            UI.Settings(Mode,WindowSurface,Cfg.SETTINGS_BACKGROUND)
 
 
     pygame.display.update()
