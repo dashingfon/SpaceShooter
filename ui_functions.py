@@ -135,7 +135,7 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                 elif event.key == K_w or event.key == K_UP:
                     SelectSide_pointer -= 1
                     
-                if event.key == K_KP_ENTER or event.key == K_SPACE:                  
+                if event.key == K_RETURN or event.key == K_SPACE:                  
                     SELECTSIDE_GRID[SelectSide_indicator].select()
                     if SELECTSIDE_GRID[SelectSide_indicator].active == True:  
                         Active = False

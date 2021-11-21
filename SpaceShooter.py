@@ -19,7 +19,7 @@ Music = False
 
 Mode = ''
 
-P1_pointer = 3
+P1_pointer = 1
 P2_pointer = 1
 
 pygame.event.post(pygame.event.Event(Cfg.HOMESCREEN))
