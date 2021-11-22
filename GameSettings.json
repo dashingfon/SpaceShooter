@@ -1,9 +1,47 @@
-{"Game_Settings": 
-    {"HighScore": {}, 
-    "Achievement": [], 
-    "Volume": 0, 
-    "Time_2p": 5, 
-    "Available_Ships": ["Ceader", "Vidite"], 
-    "Selected_Ships": ["Ceader", "Vidite"], 
-    "New_Ships": []}
+{
+  "Game_Settings": {
+    "HighScore": {},
+    "Stages Unlocked": [
+      "Stage1",
+      "Stage2"
+    ],
+    "Ships Unlocked": [],
+    "Stars Collected": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0
+      ]
+    ],
+    "Volume": 0,
+    "Time_2p": 5,
+    "Available_Ships": [
+      "Ceader",
+      "Vidite"
+    ],
+    "Selected_Ships": [
+      "Ceader",
+      "Vidite"
+    ]
+  }
 }

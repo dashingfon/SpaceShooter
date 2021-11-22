@@ -150,13 +150,13 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
 
     return [mode,P1_p,P2_p]
               
-def get_new_ships():
+def get_selected_ships():
 
     with open('GameSettings.json') as GS:
         GameSettings = json.load(GS)
-        new_ships = GameSettings['Game_Settings']['New_Ships']
+        selected_ships = GameSettings['Game_Settings']['Selected_Ships']
     
-    return new_ships
+    return selected_ships
 
 def get_available_ships():
 
@@ -208,7 +208,7 @@ def SelectShip_1P(Surface,SelectSideBg):
         ]   
     )
 
-    new_ships = get_new_ships()
+    selected_ships = get_selected_ships()
     available_ships = get_available_ships()
 
     P1_Ship = ''
@@ -233,7 +233,7 @@ def SelectShip_1P(Surface,SelectSideBg):
                 Ship.active = False
                 Ship.display(Surface)
 
-            if Ship in new_ships:
+            if Ship in available_ships and Ship not in selected_ships:
                 Ship.indicate_at_loc(
                     Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
         
@@ -341,7 +341,7 @@ def SelectShip_2P(Surface,SelectSideBg):
         ]   
     )
 
-    new_ships = get_new_ships()
+    selected_ships = get_selected_ships()
     available_ships = get_available_ships()
 
     P1_Ship = ''
@@ -377,7 +377,7 @@ def SelectShip_2P(Surface,SelectSideBg):
                     Ship.active = False
                     Ship.display(Surface)
 
-                if Ship in new_ships:
+                if Ship in available_ships and Ship not in selected_ships:
                     Ship.indicate_at_loc(
                         Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
 
@@ -402,7 +402,7 @@ def SelectShip_2P(Surface,SelectSideBg):
                     Ship.active = False
                     Ship.display(Surface)
 
-                if Ship in new_ships:
+                if Ship in available_ships and Ship not in selected_ships:
                     Ship.indicate_at_loc(
                         Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
         
@@ -536,18 +536,102 @@ def Settings(Mode,Surface,SettingsBg):
 
         pygame.display.update()           
                     
-def SelectStage():
+def get_AvailableStages():
 
+    with open('GameSettings.json') as GS:
+        GameSettings = json.load(GS)
+        AvailableStages = GameSettings['Game_Settings']['Stages Unlocked']
+    
+    return AvailableStages
 
+def get_CollectedStars():
 
+    with open('GameSettings.json') as GS:
+        GameSettings = json.load(GS)
+        CollectedStars = GameSettings['Game_Settings']['Stars Collected']
+    
+    return CollectedStars
+
+def SelectStage(Surface,SelectSideBg):
+
+    Stage1Button = Button(Cfg.STAGE1_IMAGE,Cfg.PLAYGAME,(364,71),'Stage1')
+    Stage2Button = Button(Cfg.STAGE2_IMAGE,Cfg.PLAYGAME,(364,135),'Stage2')
+    Stage3Button = Button(Cfg.STAGE3_IMAGE,Cfg.PLAYGAME,(364,199),'Stage3')
+    Stage4Button = Button(Cfg.STAGE4_IMAGE,Cfg.PLAYGAME,(364,263),'Stage4')
+    Stage5Button = Button(Cfg.STAGE5_IMAGE,Cfg.PLAYGAME,(364,327),'Stage5')
+
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SELECTSHIP_1P,(440,431))
+    BackButton.name = 'BackButton'
+
+    StageGrid = Graph(
+        [
+            [Stage1Button,[Stage1Button,Stage1Button,BackButton,Stage2Button]],
+            [Stage2Button,[Stage2Button,Stage2Button,Stage1Button,Stage3Button]],
+            [Stage3Button, [Stage3Button,Stage3Button,Stage2Button,Stage4Button]],
+            [Stage4Button,[Stage4Button,Stage4Button,Stage3Button,Stage5Button]],
+            [Stage5Button,[Stage5Button,Stage5Button,Stage4Button,BackButton]],
+            [BackButton,[BackButton,BackButton,Stage5Button,Stage1Button]]
+        ]
+    )
+
+    AvailableStages = get_AvailableStages()
+    CollectedStars = get_CollectedStars()
+
+    Stage = ''
+
+    Keys = list(StageGrid.grid.keys())
 
     Active = True
 
     while Active:
 
+        Surface.blit(SelectSideBg,(0,0))
+
+        for i in range(5):
+            if Keys[i].name not in AvailableStages:
+                Keys[i].deactivate()
+                Keys[i].greyed_out = Cfg.STAGE_GREYEDOUT
+            Keys[i].display(Surface)
+
+            a, b, c = CollectedStars[i]
+            if a:
+                Surface.blit(Cfg.BLUE_STAR,
+                (Keys[i].rect_.left + Keys[i].rect_.width + 30, Keys[i].rect_.top))
+
+            if b:
+                Surface.blit(Cfg.SILVER_STAR,
+                (Keys[i].rect_.left + Keys[i].rect_.width + 60,
+                Keys[i].rect_.top))
+                
+            if c:
+                Surface.blit(Cfg.GOLD_STAR,
+                (Keys[i].rect_.left + Keys[i].rect_.width + 90, Keys[i].rect_.top))
+
+
+        Keys[5].display(Surface)
+
+        StageGrid.selected.highlight(Surface)
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == KEYUP:
+                if event.key == Cfg.P1_CONTROLS['up'] and StageGrid.grid[StageGrid.selected][2].active:
+                    StageGrid.move_up()
+                
+                if event.key == Cfg.P1_CONTROLS['down'] and StageGrid.grid[StageGrid.selected][3].active:
+                    StageGrid.move_down()
+                
+                if event.key == Cfg.P1_CONTROLS['select']:
+                    StageGrid.selected.select()
+                    Active = False
 
         pygame.display.update()
 
+    if StageGrid.selected.name != 'BackButton':
+        return(StageGrid.selected.name)
 
 def Moves():
 

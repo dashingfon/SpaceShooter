@@ -182,6 +182,27 @@ P2_CONTROLS = {
     'select': K_RETURN
 }
 
+STAGE1_IMAGE = pygame.image.load(
+    r"Assets\Icons\SelectStage\stage1.png")
+STAGE2_IMAGE = pygame.image.load(
+    r"Assets\Icons\SelectStage\stage2.png")
+STAGE3_IMAGE = pygame.image.load(
+    r"Assets\Icons\SelectStage\stage3.png")
+STAGE4_IMAGE = pygame.image.load(
+    r"Assets\Icons\SelectStage\stage4.png")
+STAGE5_IMAGE = pygame.image.load(
+    r"Assets\Icons\SelectStage\stage5.png")
+
+STAGE_GREYEDOUT = pygame.image.load(
+    r"Assets\Icons\SelectStage\InactiveButton_grey.png")
+
+GOLD_STAR = pygame.image.load(
+    r"Assets\Icons\SelectStage\GoldStar.png")
+SILVER_STAR = pygame.image.load(
+    r"Assets\Icons\SelectStage\SilverStar.png")
+BLUE_STAR = pygame.image.load(
+    r"Assets\Icons\SelectStage\PlainBlueStar.png")
+
 '''
 # Weapon images
 BASICGUN_1 = pygame.image.load()

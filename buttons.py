@@ -4,7 +4,7 @@ import SP_configuration as Cfg
 
 
 class Button:
-    def __init__(self,image,destination,location):
+    def __init__(self,image,destination,location,name = ''):
         self.image = image
         self.rect_ = image.get_rect()
         self.destination = destination
@@ -12,6 +12,7 @@ class Button:
         self.location = location
         self.active = True
         self.greyed_out = Cfg.BUTTON_GREY_OUT
+        self.name = name
         
     def display(self,Surface):
         if self.active == True:

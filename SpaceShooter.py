@@ -17,14 +17,13 @@ pygame.mouse.set_visible(False)
 Sound = False
 Music = False
 
-Mode = ''
-
 P1_pointer = 1
 P2_pointer = 1
 
 pygame.event.post(pygame.event.Event(Cfg.HOMESCREEN))
 
 GameBoard = {}
+GameBoard['Mode'] = ''
 
 while True:
 
@@ -46,8 +45,7 @@ while True:
             
             if game_parameters:
                 P1_pointer, P2_pointer = game_parameters[1], game_parameters[2]
-                Mode = game_parameters[0]
-                GameBoard['SelectSides'] = game_parameters
+                GameBoard['Mode'] = game_parameters[0]
 
         if event.type == Cfg.SELECTSHIP_1P:
             GameBoard['Player1_ship'] = UI.SelectShip_1P(
@@ -76,9 +74,12 @@ while True:
                     GameSettings = json.load(GS)
                     SelectedShips = GameSettings['Game_Settings']['Selected_Ships']
                 
-                if GameBoard['Player1_ship'] not in SelectedShips and GameBoard['Player1_ship']:
+                if GameBoard['Player1_ship'] not in SelectedShips:
                     GameSettings['Game_Settings']['Selected_Ships'].append(
                         GameBoard['Player1_ship'])
+
+                    with open('GameSettings.json','w') as GS:
+                        json.dump(GameSettings, GS, indent = 2)
 
                 if GameBoard['Player2_ship'] not in SelectedShips:
                     GameSettings['Game_Settings']['Selected_Ships'].append(
@@ -88,7 +89,12 @@ while True:
                         json.dump(GameSettings, GS, indent = 2)
 
         if event.type == Cfg.SETTINGS:
-            UI.Settings(Mode,WindowSurface,Cfg.SETTINGS_BACKGROUND)
+            UI.Settings(GameBoard['Mode'],WindowSurface,Cfg.SETTINGS_BACKGROUND)
+
+        if event.type == Cfg.SELECTSTAGE:
+            Stage = UI.SelectStage(WindowSurface,Cfg.SELECTSIDES_BACKGROUND)
+            if Stage:
+                GameBoard['Stage'] = Stage
 
 
     pygame.display.update()
