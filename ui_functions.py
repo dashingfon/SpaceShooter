@@ -35,13 +35,13 @@ def HomeScreen(Surface,homeBg):
                 sys.exit()
 
             if event.type ==  KEYUP:
-                if event.key == K_w or event.key == K_UP:
+                if event.key == Cfg.P1_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up']:
                     pointer -= 1
                 
-                if event.key == K_s or event.key == K_DOWN:
+                if event.key == Cfg.P1_CONTROLS['down'] or event.key == Cfg.P2_CONTROLS['down']:
                     pointer += 1
 
-                if event.key == K_SPACE or event.key == K_KP_ENTER:
+                if event.key == Cfg.P1_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:
                     HOMESCREEN_GRID[indicator].select()
                     Active = False                    
                     break
@@ -113,29 +113,35 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                 sys.exit()
 
             if event.type == KEYUP:
-                if event.key == K_d:
+                if event.key == Cfg.P1_CONTROLS['right']:
                     P1_p += 1
-                if event.key == K_a:
+                if event.key == Cfg.P1_CONTROLS['left']:
                     P1_p -= 1
                 
-                if event.key == K_RIGHT:
+                if event.key == Cfg.P2_CONTROLS['right']:
                     P2_p += 1
-                if event.key == K_LEFT:
+                if event.key == Cfg.P2_CONTROLS['left']:
                     P2_p -= 1
     
-                if event.key == K_s or event.key == K_DOWN and mode == 'Com' or mode == 'Same':
+                if event.key == Cfg.P1_CONTROLS['down'] or event.key == Cfg.P2_CONTROLS['down'] and mode == 'Com' or mode == 'Same':
                     pass
 
-                elif event.key == K_s or event.key == K_DOWN:
+                elif event.key == Cfg.P1_CONTROLS['down']:
+                    SelectSide_pointer += 1
+
+                elif  event.key == Cfg.P2_CONTROLS['down']:
                     SelectSide_pointer += 1
                 
-                if event.key == K_w or event.key == K_UP and mode == 'Com' or mode == 'Same':
+                if event.key == Cfg.P1_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up'] and mode == 'Com' or mode == 'Same':
                     pass
 
-                elif event.key == K_w or event.key == K_UP:
+                elif event.key == Cfg.P1_CONTROLS['up']:
                     SelectSide_pointer -= 1
-                    
-                if event.key == K_RETURN or event.key == K_SPACE:                  
+
+                elif event.key == Cfg.P2_CONTROLS['up']:
+                    SelectSide_pointer -= 1    
+
+                if event.key == Cfg.P1_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:                  
                     SELECTSIDE_GRID[SelectSide_indicator].select()
                     if SELECTSIDE_GRID[SelectSide_indicator].active == True:  
                         Active = False
@@ -238,19 +244,19 @@ def SelectShip_1P(Surface,SelectSideBg):
                 pygame.quit()
                 sys.exit()
             if event.type == KEYUP:
-                if event.key == K_a and P1_GRID.grid[P1_GRID.selected][0].active == True:
+                if event.key == Cfg.P1_CONTROLS['left'] and P1_GRID.grid[P1_GRID.selected][0].active == True:
                     P1_GRID.move_left()
 
-                if event.key == K_d and P1_GRID.grid[P1_GRID.selected][1].active == True:
+                if event.key == Cfg.P1_CONTROLS['right'] and P1_GRID.grid[P1_GRID.selected][1].active == True:
                     P1_GRID.move_right()
 
-                if event.key == K_w and P1_GRID.grid[P1_GRID.selected][2].active == True:
+                if event.key == Cfg.P1_CONTROLS['up'] and P1_GRID.grid[P1_GRID.selected][2].active == True:
                     P1_GRID.move_up()
 
-                if event.key == K_s and P1_GRID.grid[P1_GRID.selected][3].active == True:
+                if event.key == Cfg.P1_CONTROLS['down'] and P1_GRID.grid[P1_GRID.selected][3].active == True:
                     P1_GRID.move_down()
 
-                if event.key == K_SPACE:
+                if event.key == Cfg.P1_CONTROLS['select']:
                     P1_GRID.selected.select()
                     if P1_GRID.selected.active == True:
                         if P1_GRID.selected not in ControlButton:
@@ -399,6 +405,9 @@ def SelectShip_2P(Surface,SelectSideBg):
                     Ship.indicate_at_loc(
                         Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
         
+        if P1_Ship and P2_Ship:
+                break
+
         for button in ControlButton:   
             button.display(Surface)
 
@@ -407,19 +416,19 @@ def SelectShip_2P(Surface,SelectSideBg):
                 pygame.quit()
                 sys.exit()
             if event.type == KEYUP:
-                if event.key == K_a and P1_GRID.grid[P1_GRID.selected][0].active == True:
+                if event.key == Cfg.P1_CONTROLS['left'] and P1_GRID.grid[P1_GRID.selected][0].active == True:
                     P1_GRID.move_left()
 
-                if event.key == K_d and P1_GRID.grid[P1_GRID.selected][1].active == True:
+                if event.key == Cfg.P1_CONTROLS['right'] and P1_GRID.grid[P1_GRID.selected][1].active == True:
                     P1_GRID.move_right()
 
-                if event.key == K_w and P1_GRID.grid[P1_GRID.selected][2].active == True:
+                if event.key == Cfg.P1_CONTROLS['up'] and P1_GRID.grid[P1_GRID.selected][2].active == True:
                     P1_GRID.move_up()
 
-                if event.key == K_s and P1_GRID.grid[P1_GRID.selected][3].active == True:
+                if event.key == Cfg.P1_CONTROLS['down'] and P1_GRID.grid[P1_GRID.selected][3].active == True:
                     P1_GRID.move_down()
 
-                if event.key == K_SPACE:
+                if event.key == Cfg.P1_CONTROLS['select']:
                     if P1_GRID.selected.active == True:
                         if P1_GRID.selected not in ControlButton:
                             State1_P1, State2_P1 = '',ShipButton_P1[P1_GRID.selected]
@@ -431,19 +440,19 @@ def SelectShip_2P(Surface,SelectSideBg):
                             Active = False
     
                     
-                if event.key == K_LEFT and P2_GRID.grid[P2_GRID.selected][0].active == True:
+                if event.key == Cfg.P2_CONTROLS['left'] and P2_GRID.grid[P2_GRID.selected][0].active == True:
                     P2_GRID.move_left()
 
-                if event.key == K_RIGHT and P2_GRID.grid[P2_GRID.selected][1].active == True:
+                if event.key == Cfg.P2_CONTROLS['right'] and P2_GRID.grid[P2_GRID.selected][1].active == True:
                     P2_GRID.move_right()
 
-                if event.key == K_UP and P2_GRID.grid[P2_GRID.selected][2].active == True:
+                if event.key == Cfg.P2_CONTROLS['up'] and P2_GRID.grid[P2_GRID.selected][2].active == True:
                     P2_GRID.move_up()
 
-                if event.key == K_DOWN and P2_GRID.grid[P2_GRID.selected][3].active == True:
+                if event.key == Cfg.P2_CONTROLS['down'] and P2_GRID.grid[P2_GRID.selected][3].active == True:
                     P2_GRID.move_down()
 
-                if event.key == K_KP_ENTER:
+                if event.key == Cfg.P2_CONTROLS['select']:
                     if P2_GRID.selected.active == True:
                         if P2_GRID.selected not in ControlButton:
                             State1_P2, State2_P2 = '',ShipButton_P2[P2_GRID.selected]
@@ -455,8 +464,7 @@ def SelectShip_2P(Surface,SelectSideBg):
 
                             Active = False                
         
-        if P1_Ship and P2_Ship:
-            break
+            
 
         pygame.display.update()
 
@@ -492,10 +500,10 @@ def Settings(Mode,Surface,SettingsBg):
         
         Surface.blit(SettingsBg,(0,0))
 
-        SettingsGrid.selected.highlight(Surface)
-
         for button in SettingsGrid.grid.keys():
             button.display(Surface)
+
+        SettingsGrid.selected.highlight(Surface)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -504,23 +512,83 @@ def Settings(Mode,Surface,SettingsBg):
             
             if event.type == KEYUP:
                 if Mode == '1P':
-                    if event.key == Cfg.P2_CONTROLS['up']:
-                        SettingsGrid.move_up
-                    if event.key == Cfg.P2_CONTROLS['down']:
-                        SettingsGrid.move_down
+                    if event.key == Cfg.P1_CONTROLS['up']:
+                        SettingsGrid.move_up()
+                    if event.key == Cfg.P1_CONTROLS['down']:
+                        SettingsGrid.move_down()
                     
-                    if event.key == Cfg.P2_CONTROLS['select']:
+                    if event.key == Cfg.P1_CONTROLS['select']:
                         SettingsGrid.selected.select()
                         Active = False
 
-                if Mode == '2P':
-                    if event.key == Cfg.P1_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up']:
-                        SettingsGrid.move_up
-                    if event.key == Cfg.P1_CONTROLS['down'] or event.key == Cfg.P2_CONTROLS['down']:
-                        SettingsGrid.move_down
+                elif Mode == '2P' or not Mode:
+                    if event.key == Cfg.P2_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up']:
+                        SettingsGrid.move_up()
+                    if event.key == Cfg.P2_CONTROLS['down'] or event.key == Cfg.P2_CONTROLS['down']:
+                        SettingsGrid.move_down()
                     
-                    if event.key == Cfg.P1_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:
+                    if event.key == Cfg.P2_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:
                         SettingsGrid.selected.select()
                         Active = False
+
+                
+
+        pygame.display.update()           
                     
-                    
+def SelectStage():
+
+
+
+
+    Active = True
+
+    while Active:
+
+
+        pygame.display.update()
+
+
+def Moves():
+
+
+    Active = True
+
+    while Active:
+
+        pygame.display.update()
+
+
+def HighScores():
+
+
+    Active = True
+
+    while Active:
+
+
+        pygame.display.update()
+
+
+def Achievement():
+
+
+    Active = True
+
+
+    while Active:
+
+
+        pygame.display.update()
+
+
+def GameSettings():
+
+
+    Active = True
+
+
+    while Active:
+
+
+        pygame.display.update()
+
