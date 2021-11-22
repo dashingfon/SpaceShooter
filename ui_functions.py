@@ -84,17 +84,7 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
         P2_controller = Icon(
         Cfg.P2_CONTROLLER_IMG,(Cfg.P2_POSITIONS[P2_indicator]))
 
-        mode = get_mode(P1_controller.location,P2_controller.location)
-        if mode == 'Com' or mode == 'Same':
-            SelectButton.deactivate()
-        elif mode == '1P':
-            SelectButton.activate()
-            SelectButton.destination = Cfg.SELECTSHIP_1P
-        elif mode =='2P':
-            SelectButton.activate()
-            SelectButton.destination = Cfg.SELECTSHIP_2P
 
-        
         Surface.blit(SelectSideBg,(0,0))
         Surface.blit(SelectSideEle,(126,79))
 
@@ -145,8 +135,19 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                     SELECTSIDE_GRID[SelectSide_indicator].select()
                     if SELECTSIDE_GRID[SelectSide_indicator].active == True:  
                         Active = False
-         
-        pygame.display.update()            
+
+        mode = get_mode(P1_controller.location,P2_controller.location)
+        if mode == 'Com' or mode == 'Same':
+            SelectButton.deactivate()
+        elif mode == '1P':
+            SelectButton.activate()
+            SelectButton.destination = Cfg.SELECTSHIP_1P
+        elif mode =='2P':
+            SelectButton.activate()
+            SelectButton.destination = Cfg.SELECTSHIP_2P
+
+        pygame.display.update()  
+
     return [mode,P1_p,P2_p]
               
 def get_new_ships():
@@ -480,9 +481,9 @@ def Settings(Mode,Surface,SettingsBg):
 
     BackButton = Button(Cfg.BACKBUTTON,Cfg.HOMESCREEN,(117,432))
 
-    if Mode and Mode == '1P':
+    if Mode == '1P':
         BackButton.destination = Cfg.SELECTSHIP_1P
-    elif Mode and Mode == '2P':
+    elif Mode == '2P':
         BackButton.destination = Cfg.SELECTSHIP_2P
 
     SettingsGrid = Graph ([
@@ -511,7 +512,7 @@ def Settings(Mode,Surface,SettingsBg):
                 sys.exit()
             
             if event.type == KEYUP:
-                if Mode == '1P':
+                if Mode == '1P' :
                     if event.key == Cfg.P1_CONTROLS['up']:
                         SettingsGrid.move_up()
                     if event.key == Cfg.P1_CONTROLS['down']:
@@ -522,12 +523,12 @@ def Settings(Mode,Surface,SettingsBg):
                         Active = False
 
                 elif Mode == '2P' or not Mode:
-                    if event.key == Cfg.P2_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up']:
+                    if event.key == Cfg.P2_CONTROLS['up'] or event.key == Cfg.P1_CONTROLS['up']:
                         SettingsGrid.move_up()
-                    if event.key == Cfg.P2_CONTROLS['down'] or event.key == Cfg.P2_CONTROLS['down']:
+                    if event.key == Cfg.P2_CONTROLS['down'] or event.key == Cfg.P1_CONTROLS['down']:
                         SettingsGrid.move_down()
                     
-                    if event.key == Cfg.P2_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:
+                    if event.key == Cfg.P2_CONTROLS['select'] or event.key == Cfg.P1_CONTROLS['select']:
                         SettingsGrid.selected.select()
                         Active = False
 
