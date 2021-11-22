@@ -146,6 +146,42 @@ RHOMOS = 'Rhomos'
 ELOUS = 'Elous'
 RONIR = 'Ronir'
 
+SETTINGS_BACKGROUND = pygame.image.load(
+    r"Assets\Icons\Settings\SettingsBackground.png"
+)
+
+# Settings Button images
+
+GAMESETTINGS_IMAGE = pygame.image.load(
+    r"Assets\Icons\Settings\game_settings_button.png"
+)
+ACHIEVEMENT_IMAGE = pygame.image.load(
+    r"Assets\Icons\Settings\achievement_button.png"
+)
+HIGHSCORE_IMAGE = pygame.image.load(
+    r"Assets\Icons\Settings\highscores_button.png"
+)
+MOVES_IMAGE = pygame.image.load(
+    r"Assets\Icons\Settings\moves_button.png"
+)
+
+# PLayer Controls
+P1_CONTROLS = {
+    'up': K_w,
+    'down': K_s,
+    'left': K_a,
+    'right': K_d,
+    'select': K_SPACE
+}
+
+P2_CONTROLS = {
+    'up': K_UP,
+    'down': K_DOWN,
+    'left': K_LEFT,
+    'right': K_RIGHT,
+    'select': K_RETURN
+}
+
 '''
 # Weapon images
 BASICGUN_1 = pygame.image.load()

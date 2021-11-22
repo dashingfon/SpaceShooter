@@ -1,6 +1,7 @@
 from buttons import Button, Graph, Icon
 import SP_configuration as Cfg
 
+import copy
 import json
 import pygame, sys
 from pygame.locals import *
@@ -34,21 +35,19 @@ def HomeScreen(Surface,homeBg):
                 sys.exit()
 
             if event.type ==  KEYUP:
-                if event.key == K_w or event.key == K_UP:
+                if event.key == Cfg.P1_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up']:
                     pointer -= 1
                 
-                if event.key == K_s or event.key == K_DOWN:
+                if event.key == Cfg.P1_CONTROLS['down'] or event.key == Cfg.P2_CONTROLS['down']:
                     pointer += 1
 
-                if event.key == K_SPACE or event.key == K_KP_ENTER:
+                if event.key == Cfg.P1_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:
                     HOMESCREEN_GRID[indicator].select()
                     Active = False                    
                     break
         
         pygame.display.update()
             
-            
-
 def get_mode(point1,point2):
 
     parallel = point1[0] == point2[0] #parallel when both x are equal
@@ -62,7 +61,6 @@ def get_mode(point1,point2):
         return '1P'
     elif parallel and not point1_com or point2_com:
         return 'Same'
-
 
 def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
 
@@ -115,29 +113,35 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                 sys.exit()
 
             if event.type == KEYUP:
-                if event.key == K_d:
+                if event.key == Cfg.P1_CONTROLS['right']:
                     P1_p += 1
-                if event.key == K_a:
+                if event.key == Cfg.P1_CONTROLS['left']:
                     P1_p -= 1
                 
-                if event.key == K_RIGHT:
+                if event.key == Cfg.P2_CONTROLS['right']:
                     P2_p += 1
-                if event.key == K_LEFT:
+                if event.key == Cfg.P2_CONTROLS['left']:
                     P2_p -= 1
     
-                if event.key == K_s or event.key == K_DOWN and mode == 'Com' or mode == 'Same':
+                if event.key == Cfg.P1_CONTROLS['down'] or event.key == Cfg.P2_CONTROLS['down'] and mode == 'Com' or mode == 'Same':
                     pass
 
-                elif event.key == K_s or event.key == K_DOWN:
+                elif event.key == Cfg.P1_CONTROLS['down']:
                     SelectSide_pointer += 1
 
-                if event.key == K_w or event.key == K_UP and mode == 'Com' or mode == 'Same':
+                elif  event.key == Cfg.P2_CONTROLS['down']:
+                    SelectSide_pointer += 1
+                
+                if event.key == Cfg.P1_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up'] and mode == 'Com' or mode == 'Same':
                     pass
 
-                elif event.key == K_w or event.key == K_UP:
+                elif event.key == Cfg.P1_CONTROLS['up']:
                     SelectSide_pointer -= 1
-                    
-                if event.key == K_KP_ENTER or event.key == K_SPACE:                  
+
+                elif event.key == Cfg.P2_CONTROLS['up']:
+                    SelectSide_pointer -= 1    
+
+                if event.key == Cfg.P1_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:                  
                     SELECTSIDE_GRID[SelectSide_indicator].select()
                     if SELECTSIDE_GRID[SelectSide_indicator].active == True:  
                         Active = False
@@ -240,19 +244,19 @@ def SelectShip_1P(Surface,SelectSideBg):
                 pygame.quit()
                 sys.exit()
             if event.type == KEYUP:
-                if event.key == K_a and P1_GRID.grid[P1_GRID.selected][0].active == True:
+                if event.key == Cfg.P1_CONTROLS['left'] and P1_GRID.grid[P1_GRID.selected][0].active == True:
                     P1_GRID.move_left()
 
-                if event.key == K_d and P1_GRID.grid[P1_GRID.selected][1].active == True:
+                if event.key == Cfg.P1_CONTROLS['right'] and P1_GRID.grid[P1_GRID.selected][1].active == True:
                     P1_GRID.move_right()
 
-                if event.key == K_w and P1_GRID.grid[P1_GRID.selected][2].active == True:
+                if event.key == Cfg.P1_CONTROLS['up'] and P1_GRID.grid[P1_GRID.selected][2].active == True:
                     P1_GRID.move_up()
 
-                if event.key == K_s and P1_GRID.grid[P1_GRID.selected][3].active == True:
+                if event.key == Cfg.P1_CONTROLS['down'] and P1_GRID.grid[P1_GRID.selected][3].active == True:
                     P1_GRID.move_down()
 
-                if event.key == K_SPACE:
+                if event.key == Cfg.P1_CONTROLS['select']:
                     P1_GRID.selected.select()
                     if P1_GRID.selected.active == True:
                         if P1_GRID.selected not in ControlButton:
@@ -266,6 +270,9 @@ def SelectShip_1P(Surface,SelectSideBg):
 def SelectShip_2P(Surface,SelectSideBg):
 
     ShipIcon = Icon(Cfg.SHIP_ICON,(404,36))
+
+    P1_ReadyIcon = Icon(Cfg.PLAYER_READY_IMG,(137,302))
+    P2_ReadyIcon = Icon(Cfg.PLAYER_READY_IMG,(675,302))
 
     CeaderButton_P1 = Button(Cfg.CEADER_BUTTON_IMG,Cfg.PLAYGAME,(66,113))
     ViditeButton_P1 = Button(Cfg.VIDITE_BUTTON_IMG,Cfg.PLAYGAME,(236,113))
@@ -339,48 +346,68 @@ def SelectShip_2P(Surface,SelectSideBg):
     P1_Ship = ''
     P2_Ship = ''
 
+    P1_Pointer, P1_Static = 2, 2
+    P2_Pointer, P2_Static = 2, 2
+
     Active = True 
 
     while Active:
         Surface.blit(SelectSideBg,(0,0))
         ShipIcon.display(Surface)
 
-        if P1_GRID.selected not in ControlButton:
-            P1_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR0)
+        if P1_Ship:
+            SelectedShip_P1 = copy.copy(P1_GRID.selected)
+            SelectedShip_P1.location = (149,207)
+
+            SelectedShip_P1.display(Surface)
+            P1_ReadyIcon.display(Surface) 
         else:
-            P1_GRID.selected.indicate(Surface,Cfg.BUTTON_INDICATOR)
-
-        for Ship in ShipButton_P1.keys():
-            if ShipButton_P1[Ship] in available_ships:
-                Ship.active = True
-                Ship.display(Surface)
+            if P1_GRID.selected not in ControlButton:
+                P1_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR0)
             else:
-                Ship.greyed_out = Cfg.PlAYER_GREY_OUT
-                Ship.active = False
-                Ship.display(Surface)
+                P1_GRID.selected.indicate(Surface,Cfg.BUTTON_INDICATOR)
 
-            if Ship in new_ships:
-                Ship.indicate_at_loc(
-                    Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
+            for Ship in ShipButton_P1.keys():
+                if ShipButton_P1[Ship] in available_ships:
+                    Ship.active = True
+                    Ship.display(Surface)
+                else:
+                    Ship.greyed_out = Cfg.PlAYER_GREY_OUT
+                    Ship.active = False
+                    Ship.display(Surface)
 
-        if P2_GRID.selected not in ControlButton:
-            P2_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR1)
+                if Ship in new_ships:
+                    Ship.indicate_at_loc(
+                        Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
+
+        if P2_Ship:
+            SelectedShip_P2 = copy.copy(P2_GRID.selected)
+            SelectedShip_P2.location = (687,207)
+
+            SelectedShip_P2.display(Surface)
+            P2_ReadyIcon.display(Surface)
         else:
-            P2_GRID.selected.indicate(Surface,Cfg.BUTTON_INDICATOR0)
-
-        for Ship in ShipButton_P2.keys():
-            if ShipButton_P2[Ship] in available_ships:
-                Ship.active = True
-                Ship.display(Surface)
+            if P2_GRID.selected not in ControlButton:
+                P2_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR1)
             else:
-                Ship.greyed_out = Cfg.PlAYER_GREY_OUT
-                Ship.active = False
-                Ship.display(Surface)
+                P2_GRID.selected.indicate(Surface,Cfg.BUTTON_INDICATOR0)
 
-            if Ship in new_ships:
-                Ship.indicate_at_loc(
-                    Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
+            for Ship in ShipButton_P2.keys():
+                if ShipButton_P2[Ship] in available_ships:
+                    Ship.active = True
+                    Ship.display(Surface)
+                else:
+                    Ship.greyed_out = Cfg.PlAYER_GREY_OUT
+                    Ship.active = False
+                    Ship.display(Surface)
+
+                if Ship in new_ships:
+                    Ship.indicate_at_loc(
+                        Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
         
+        if P1_Ship and P2_Ship:
+                break
+
         for button in ControlButton:   
             button.display(Surface)
 
@@ -389,56 +416,179 @@ def SelectShip_2P(Surface,SelectSideBg):
                 pygame.quit()
                 sys.exit()
             if event.type == KEYUP:
-                if event.key == K_a and P1_GRID.grid[P1_GRID.selected][0].active == True:
+                if event.key == Cfg.P1_CONTROLS['left'] and P1_GRID.grid[P1_GRID.selected][0].active == True:
                     P1_GRID.move_left()
 
-                if event.key == K_d and P1_GRID.grid[P1_GRID.selected][1].active == True:
+                if event.key == Cfg.P1_CONTROLS['right'] and P1_GRID.grid[P1_GRID.selected][1].active == True:
                     P1_GRID.move_right()
 
-                if event.key == K_w and P1_GRID.grid[P1_GRID.selected][2].active == True:
+                if event.key == Cfg.P1_CONTROLS['up'] and P1_GRID.grid[P1_GRID.selected][2].active == True:
                     P1_GRID.move_up()
 
-                if event.key == K_s and P1_GRID.grid[P1_GRID.selected][3].active == True:
+                if event.key == Cfg.P1_CONTROLS['down'] and P1_GRID.grid[P1_GRID.selected][3].active == True:
                     P1_GRID.move_down()
 
-                if event.key == K_SPACE:
-                    P1_GRID.selected.select()
+                if event.key == Cfg.P1_CONTROLS['select']:
                     if P1_GRID.selected.active == True:
                         if P1_GRID.selected not in ControlButton:
-                            P1_Ship = ShipButton_P1[P1_GRID.selected]
-                        Active = False
+                            State1_P1, State2_P1 = '',ShipButton_P1[P1_GRID.selected]
+                            P1_Ship = P1_GRID.selected.toggle(
+                                P1_Ship,P1_Pointer,P1_Static,State1_P1,State2_P1)
+                            P1_Pointer += 1
+                        else:
+                            P1_GRID.selected.select()                            
+                            Active = False
+    
                     
-                if event.key == K_LEFT and P2_GRID.grid[P2_GRID.selected][0].active == True:
+                if event.key == Cfg.P2_CONTROLS['left'] and P2_GRID.grid[P2_GRID.selected][0].active == True:
                     P2_GRID.move_left()
 
-                if event.key == K_RIGHT and P2_GRID.grid[P2_GRID.selected][1].active == True:
+                if event.key == Cfg.P2_CONTROLS['right'] and P2_GRID.grid[P2_GRID.selected][1].active == True:
                     P2_GRID.move_right()
 
-                if event.key == K_UP and P2_GRID.grid[P2_GRID.selected][2].active == True:
+                if event.key == Cfg.P2_CONTROLS['up'] and P2_GRID.grid[P2_GRID.selected][2].active == True:
                     P2_GRID.move_up()
 
-                if event.key == K_DOWN and P2_GRID.grid[P2_GRID.selected][3].active == True:
+                if event.key == Cfg.P2_CONTROLS['down'] and P2_GRID.grid[P2_GRID.selected][3].active == True:
                     P2_GRID.move_down()
 
-                if event.key == K_KP_ENTER:
-                    P2_GRID.selected.select()
-                    P2_Ship = ShipButton_P2[P2_GRID.selected]
+                if event.key == Cfg.P2_CONTROLS['select']:
                     if P2_GRID.selected.active == True:
                         if P2_GRID.selected not in ControlButton:
-                            P2_Ship = ShipButton_P2[P2_GRID.selected]
-                        Active = False                
+                            State1_P2, State2_P2 = '',ShipButton_P2[P2_GRID.selected]
+                            P2_Ship = P2_GRID.selected.toggle(
+                                P2_Ship,P2_Pointer,P2_Static,State1_P2,State2_P2)
+                            P2_Pointer += 1
+                        else:
+                            P2_GRID.selected.select()
+
+                            Active = False                
+        
+            
 
         pygame.display.update()
-    if P1_Ship and P2_Ship:
+
+    if P2_Ship and P1_Ship:
         return [ShipButton_P1[P1_GRID.selected],ShipButton_P2[P2_GRID.selected]]
-    else:
-        return None
 
+def Settings(Mode,Surface,SettingsBg):
 
-def Settings(Mode):
-    Active = True 
+    GameSettingsButton = Button(Cfg.GAMESETTINGS_IMAGE,Cfg.GAME_SETTINGS,(339,60))
+    AchievementButton = Button(Cfg.ACHIEVEMENT_IMAGE,Cfg.ACHIEVEMENT,(346,380))
+    HighScoreButton = Button(Cfg.HIGHSCORE_IMAGE,Cfg.HIGHSCORES,(367,271))
+    MovesButton = Button(Cfg.MOVES_IMAGE,Cfg.MOVES,(390,166))
+
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.HOMESCREEN,(117,432))
+
+    if Mode and Mode == '1P':
+        BackButton.destination = Cfg.SELECTSHIP_1P
+    elif Mode and Mode == '2P':
+        BackButton.destination = Cfg.SELECTSHIP_2P
+
+    SettingsGrid = Graph ([
+        [GameSettingsButton,[GameSettingsButton,GameSettingsButton,BackButton,MovesButton]],
+        [MovesButton, [MovesButton,MovesButton,GameSettingsButton,HighScoreButton]],
+        [HighScoreButton, [HighScoreButton,HighScoreButton,MovesButton,AchievementButton]],
+        [AchievementButton, [AchievementButton,AchievementButton,HighScoreButton,BackButton]],
+        [BackButton, [BackButton,BackButton,AchievementButton,GameSettingsButton]]
+    ]
+    )
+
+    Active = True
 
     while Active:
-        SETTINGS_GRID = Graph (
+        
+        Surface.blit(SettingsBg,(0,0))
 
-        )
+        for button in SettingsGrid.grid.keys():
+            button.display(Surface)
+
+        SettingsGrid.selected.highlight(Surface)
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == KEYUP:
+                if Mode == '1P':
+                    if event.key == Cfg.P1_CONTROLS['up']:
+                        SettingsGrid.move_up()
+                    if event.key == Cfg.P1_CONTROLS['down']:
+                        SettingsGrid.move_down()
+                    
+                    if event.key == Cfg.P1_CONTROLS['select']:
+                        SettingsGrid.selected.select()
+                        Active = False
+
+                elif Mode == '2P' or not Mode:
+                    if event.key == Cfg.P2_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up']:
+                        SettingsGrid.move_up()
+                    if event.key == Cfg.P2_CONTROLS['down'] or event.key == Cfg.P2_CONTROLS['down']:
+                        SettingsGrid.move_down()
+                    
+                    if event.key == Cfg.P2_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:
+                        SettingsGrid.selected.select()
+                        Active = False
+
+                
+
+        pygame.display.update()           
+                    
+def SelectStage():
+
+
+
+
+    Active = True
+
+    while Active:
+
+
+        pygame.display.update()
+
+
+def Moves():
+
+
+    Active = True
+
+    while Active:
+
+        pygame.display.update()
+
+
+def HighScores():
+
+
+    Active = True
+
+    while Active:
+
+
+        pygame.display.update()
+
+
+def Achievement():
+
+
+    Active = True
+
+
+    while Active:
+
+
+        pygame.display.update()
+
+
+def GameSettings():
+
+
+    Active = True
+
+
+    while Active:
+
+
+        pygame.display.update()
+

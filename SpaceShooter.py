@@ -19,7 +19,7 @@ Music = False
 
 Mode = ''
 
-P1_pointer = 3
+P1_pointer = 1
 P2_pointer = 1
 
 pygame.event.post(pygame.event.Event(Cfg.HOMESCREEN))
@@ -87,6 +87,8 @@ while True:
                     with open('GameSettings.json','w') as GS:
                         json.dump(GameSettings, GS, indent = 2)
 
+        if event.type == Cfg.SETTINGS:
+            UI.Settings(Mode,WindowSurface,Cfg.SETTINGS_BACKGROUND)
 
 
     pygame.display.update()
