@@ -645,14 +645,14 @@ def Moves(Surface,SettingsBg):
 
     BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(152,467))
 
-    Surface.blit(SettingsBg,(0,0))
-    Surface.blit(Cfg.MOVES_MENU,(475,254))
-
-    BackButton.display(Surface)
-
     Active = True
 
     while Active:
+
+        Surface.blit(SettingsBg,(0,0))
+        Surface.blit(Cfg.MOVES_MENU,(257,56))
+
+        BackButton.display(Surface)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -677,7 +677,7 @@ def HighScores():
     ResetButton = Button(Cfg.RESET_BUTTON,Cfg.RESET_HIGHSCORES,(741,447))
     HighScores = get_HighScores()
 
-    if HighScores:
+
 
 
     Active = True
