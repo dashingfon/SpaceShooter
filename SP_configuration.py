@@ -27,8 +27,9 @@ INVALID = USEREVENT + 10
 ACHIEVEMENT = USEREVENT + 11
 GAME_SETTINGS = USEREVENT + 12
 HIGHSCORES = USEREVENT + 13
-MOVES = USEREVENT + 14
-DISPLAY_WINNER = USEREVENT + 15
+RESET_HIGHSCORES = USEREVENT + 14
+MOVES = USEREVENT + 15
+DISPLAY_WINNER = USEREVENT + 16
 
 
 HOMESCREEN_BACKGROUND = pygame.image.load(
@@ -182,6 +183,8 @@ P2_CONTROLS = {
     'select': K_RETURN
 }
 
+# Stages and stars images
+
 STAGE1_IMAGE = pygame.image.load(
     r"Assets\Icons\SelectStage\stage1.png")
 STAGE2_IMAGE = pygame.image.load(
@@ -202,6 +205,14 @@ SILVER_STAR = pygame.image.load(
     r"Assets\Icons\SelectStage\SilverStar.png")
 BLUE_STAR = pygame.image.load(
     r"Assets\Icons\SelectStage\PlainBlueStar.png")
+
+# Moves menu image
+
+MOVES_MENU = pygame.image.load(
+    r"Assets\Icons\Settings\MovesList.png")
+
+RESET_BUTTON = pygame.image.load(
+    r"Assets\Icons\Settings\ResetButton.png")
 
 '''
 # Weapon images

@@ -48,6 +48,7 @@ while True:
                 GameBoard['Mode'] = game_parameters[0]
 
         if event.type == Cfg.SELECTSHIP_1P:
+
             GameBoard['Player1_ship'] = UI.SelectShip_1P(
                 WindowSurface,Cfg.SELECTSIDES_BACKGROUND)
 
@@ -62,7 +63,6 @@ while True:
                 with open('GameSettings.json','w') as GS:
                     json.dump(GameSettings, GS,indent = 2)
                 
-
         if event.type == Cfg.SELECTSHIP_2P:
             Selected_ships = UI.SelectShip_2P(
                 WindowSurface,Cfg.SELECTSIDES_BACKGROUND)
@@ -96,6 +96,8 @@ while True:
             if Stage:
                 GameBoard['Stage'] = Stage
 
+        if event.type == Cfg.MOVES:
+            UI.Moves(WindowSurface,Cfg.SETTINGS_BACKGROUND)
 
     pygame.display.update()
     MainClock.tick(Cfg.FPS)

@@ -552,6 +552,14 @@ def get_CollectedStars():
     
     return CollectedStars
 
+def get_HighScores():
+
+    with open('GameSettings.json') as GS:
+        GameSettings = json.load(GS)
+        Highscores = GameSettings['Game_Settings']['HighScore']
+    
+    return Highscores
+
 def SelectStage(Surface,SelectSideBg):
 
     Stage1Button = Button(Cfg.STAGE1_IMAGE,Cfg.PLAYGAME,(364,71),'Stage1')
@@ -633,17 +641,43 @@ def SelectStage(Surface,SelectSideBg):
     if StageGrid.selected.name != 'BackButton':
         return(StageGrid.selected.name)
 
-def Moves():
+def Moves(Surface,SettingsBg):
 
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(152,467))
+
+    Surface.blit(SettingsBg,(0,0))
+    Surface.blit(Cfg.MOVES_MENU,(475,254))
+
+    BackButton.display(Surface)
 
     Active = True
 
     while Active:
 
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == Cfg.P1_CONTROLS['select'] or Cfg.P2_CONTROLS['select']:
+                BackButton.select()
+                Active = False
+
         pygame.display.update()
 
-
 def HighScores():
+    '''
+    1. location = (290,131) subsequent += 30 , Highscore name and value = 1.x + 30(1.y same)
+    Highscore text location = (382,80)
+    Text box location = (257,66)
+
+
+    '''
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(117,432))
+    ResetButton = Button(Cfg.RESET_BUTTON,Cfg.RESET_HIGHSCORES,(741,447))
+    HighScores = get_HighScores()
+
+    if HighScores:
 
 
     Active = True
@@ -655,7 +689,16 @@ def HighScores():
 
 
 def Achievement():
+    '''
+    Achievement txt location = (369,74)
+    First star location = (315,117)
+    star to star distance = (123)
+    star to star count = 60
+    1. location = 290,179
+    number to number distance = 29
+    
 
+    '''
 
     Active = True
 
