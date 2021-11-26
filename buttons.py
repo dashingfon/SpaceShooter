@@ -59,7 +59,7 @@ class Button:
     def indicate_at_loc(self,surface,indicator,location):
         if self.active == True:
             indicator_rect = indicator.get_rect()
-            indicator.x, indicator.y = location[0], location[1]
+            indicator_rect.left, indicator_rect.top = location[0], location[1]
 
             surface.blit(indicator,indicator_rect)
 

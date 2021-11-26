@@ -119,7 +119,7 @@ def SelectSides(Surface,SelectSideBg,SelectSideEle,P1_p,P2_p):
                 elif event.key == Cfg.P1_CONTROLS['down']:
                     SelectSide_pointer += 1
 
-                elif  event.key == Cfg.P2_CONTROLS['down']:
+                elif event.key == Cfg.P2_CONTROLS['down']:
                     SelectSide_pointer += 1
                 
                 if event.key == Cfg.P1_CONTROLS['up'] or event.key == Cfg.P2_CONTROLS['up'] and mode == 'Com' or mode == 'Same':
@@ -218,6 +218,8 @@ def SelectShip_1P(Surface,SelectSideBg):
     while Active:
         Surface.blit(SelectSideBg,(0,0))
         ShipIcon.display(Surface)
+        
+        Surface.blit(Cfg.SHIPNAMES,(278,100))
 
         if P1_GRID.selected not in ControlButton:
             P1_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR0)
@@ -233,9 +235,9 @@ def SelectShip_1P(Surface,SelectSideBg):
                 Ship.active = False
                 Ship.display(Surface)
 
-            if Ship in available_ships and Ship not in selected_ships:
+            if ShipButton[Ship] in available_ships and ShipButton[Ship] not in selected_ships:
                 Ship.indicate_at_loc(
-                    Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top - 65))
+                    Surface,Cfg.NEW_TAG,(Ship.rect_.left + 2,Ship.rect_.top + 65))
         
         for button in ControlButton:   
             button.display(Surface)
@@ -317,8 +319,8 @@ def SelectShip_2P(Surface,SelectSideBg):
 
     P1_GRID = Graph(
         [
-        [CeaderButton_P1, [ViditeButton_P1,ViditeButton_P1,BackButton,QuraosButton_P1]],
-        [ViditeButton_P1, [CeaderButton_P1,CeaderButton_P1,RhomosButton_P1,RonirButton_P1]],
+        [CeaderButton_P1, [ViditeButton_P1,ViditeButton_P1,ElousButton_P1,QuraosButton_P1]],
+        [ViditeButton_P1, [CeaderButton_P1,CeaderButton_P1,BackButton,RonirButton_P1]],
         [QuraosButton_P1, [RhomosButton_P1,RhomosButton_P1,CeaderButton_P1,ElousButton_P1]],
         [RhomosButton_P1, [QuraosButton_P1,QuraosButton_P1,ViditeButton_P1,RonirButton_P1]],
         [ElousButton_P1, [RonirButton_P1,RonirButton_P1,QuraosButton_P1,BackButton]],
@@ -355,7 +357,7 @@ def SelectShip_2P(Surface,SelectSideBg):
     while Active:
         Surface.blit(SelectSideBg,(0,0))
         ShipIcon.display(Surface)
-
+        
         if P1_Ship:
             SelectedShip_P1 = copy.copy(P1_GRID.selected)
             SelectedShip_P1.location = (149,207)
@@ -363,6 +365,7 @@ def SelectShip_2P(Surface,SelectSideBg):
             SelectedShip_P1.display(Surface)
             P1_ReadyIcon.display(Surface) 
         else:
+            Surface.blit(Cfg.SHIPNAMES_2P_1,(79,87))
             if P1_GRID.selected not in ControlButton:
                 P1_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR0)
             else:
@@ -388,6 +391,7 @@ def SelectShip_2P(Surface,SelectSideBg):
             SelectedShip_P2.display(Surface)
             P2_ReadyIcon.display(Surface)
         else:
+            Surface.blit(Cfg.SHIPNAMES_2P_2,(634,87))
             if P2_GRID.selected not in ControlButton:
                 P2_GRID.selected.indicate(Surface,Cfg.SHIP_INDICATOR1)
             else:
@@ -643,14 +647,14 @@ def SelectStage(Surface,SelectSideBg):
 
 def Moves(Surface,SettingsBg):
 
-    BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(152,467))
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(440,448))
 
     Active = True
 
     while Active:
 
         Surface.blit(SettingsBg,(0,0))
-        Surface.blit(Cfg.MOVES_MENU,(257,56))
+        Surface.blit(Cfg.MOVES_MENU,(257,36))
 
         BackButton.display(Surface)
 
@@ -659,55 +663,136 @@ def Moves(Surface,SettingsBg):
                 pygame.quit()
                 sys.exit()
 
-            if event.type == Cfg.P1_CONTROLS['select'] or Cfg.P2_CONTROLS['select']:
-                BackButton.select()
-                Active = False
+            if event.type == KEYUP:
+                if event.key == Cfg.P1_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']: 
+                    BackButton.select()
+                    Active = False
 
         pygame.display.update()
 
-def HighScores():
-    '''
-    1. location = (290,131) subsequent += 30 , Highscore name and value = 1.x + 30(1.y same)
-    Highscore text location = (382,80)
-    Text box location = (257,66)
+def SortDict_byValues(Dict):
 
+    Sorted_Dict = sorted(Dict.items(), key = lambda v: v[1],reverse = True)
+    return(Sorted_Dict)
 
-    '''
-    BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(117,432))
-    ResetButton = Button(Cfg.RESET_BUTTON,Cfg.RESET_HIGHSCORES,(741,447))
+def HighScores(Surface,SettingsBg):
+    
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(346,448))
+    ResetButton = Button(Cfg.RESET_BUTTON,Cfg.INVALID,(485,448))
+
     HighScores = get_HighScores()
 
-
-
-
-    Active = True
-
-    while Active:
-
-
-        pygame.display.update()
-
-
-def Achievement():
-    '''
-    Achievement txt location = (369,74)
-    First star location = (315,117)
-    star to star distance = (123)
-    star to star count = 60
-    1. location = 290,179
-    number to number distance = 29
+    Grungerocker_6_013 = pygame.font.SysFont('grungerocker',35)
     
 
-    '''
+    Sorted = SortDict_byValues(HighScores)[:10]
+    
+    HighScoresGrid = Graph(
+        [
+            [BackButton,[ResetButton,ResetButton,BackButton,BackButton]],
+            [ResetButton,[BackButton,BackButton,ResetButton,ResetButton]]
+        ]
+    )
+    Active = True
+
+    while Active:
+
+        Surface.blit(SettingsBg,(0,0))
+        Surface.blit(Cfg.HIGHSCORE_DISPBOARD,(257,36))
+
+        '''Highscore_text = Grungerocker_6_013.render('HIGHSCORE',True,Cfg.WHITE)
+        Surface.blit(Highscore_text,(372,32))'''
+
+        for key in HighScoresGrid.grid.keys():
+            key.display(Surface)
+        
+        HighScoresGrid.selected.highlight(Surface)
+
+        Grungerocker_4 = pygame.font.SysFont('grungerocker',25)
+        x = 1
+        rect_top, rect_left = 95, 290
+
+        for item in Sorted:
+
+            Index = Grungerocker_4.render(str(x),True,Cfg.WHITE)
+            Index_rect = Index.get_rect()
+            Index_rect.left, Index_rect.top = rect_left, rect_top
+
+            Name = Grungerocker_4.render(item[0],True,Cfg.WHITE)
+            Name_rect = Name.get_rect()
+            Name_rect.left, Name_rect.top = Index_rect.left + 50, rect_top
+
+            Score = Grungerocker_4.render(str(item[1]),True,Cfg.WHITE)
+            Score_rect = Score.get_rect()
+            Score_rect.left, Score_rect.top = Name_rect.left + 260, rect_top
+
+            Surface.blit(Index,Index_rect)
+            Surface.blit(Name,Name_rect)
+            Surface.blit(Score,Score_rect)
+
+            x += 1
+            rect_top += 30
+            
+
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == KEYUP:
+                if event.key == Cfg.P1_CONTROLS['left'] or event.key == Cfg.P2_CONTROLS['left']:
+                    HighScoresGrid.move_left()
+
+                if event.key == Cfg.P1_CONTROLS['right'] or event.key == Cfg.P2_CONTROLS['right']:
+                    HighScoresGrid.move_right()
+
+                if event.key == Cfg.P1_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']:
+                    if HighScoresGrid.selected == ResetButton:
+                        
+                        with open('GameSettings.json','r') as GS:
+                            GameSettings = json.load(GS)
+                            GameSettings['Game_Settings']['HighScore'] = {}
+                        with open('GameSettings.json','w') as GS:   
+                            json.dump(GameSettings,GS,indent = 2)
+
+                        HighScores = get_HighScores()
+                        Sorted = SortDict_byValues(HighScores)[:10]
+                        
+                            
+                    else:
+                        HighScoresGrid.selected.select()
+                        Active = False
+
+        pygame.display.update()
+
+def Achievement(Surface,SettingsBg):
+
+    BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(440,448))
 
     Active = True
 
 
     while Active:
 
+        Surface.blit(SettingsBg,(0,0))
+        Surface.blit(Cfg.MOVES_MENU,(257,36))
+
+        BackButton.display(Surface)
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == KEYUP:
+                if event.key == Cfg.P1_CONTROLS['select'] or event.key == Cfg.P2_CONTROLS['select']: 
+                    BackButton.select()
+                    Active = False
 
         pygame.display.update()
 
+        pygame.display.update()
 
 def GameSettings():
 

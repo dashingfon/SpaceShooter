@@ -99,6 +99,9 @@ while True:
         if event.type == Cfg.MOVES:
             UI.Moves(WindowSurface,Cfg.SETTINGS_BACKGROUND)
 
+        if event.type == Cfg.HIGHSCORES:
+            UI.HighScores(WindowSurface,Cfg.SETTINGS_BACKGROUND)
+
     pygame.display.update()
     MainClock.tick(Cfg.FPS)
 

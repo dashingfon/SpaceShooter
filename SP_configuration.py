@@ -27,7 +27,6 @@ INVALID = USEREVENT + 10
 ACHIEVEMENT = USEREVENT + 11
 GAME_SETTINGS = USEREVENT + 12
 HIGHSCORES = USEREVENT + 13
-RESET_HIGHSCORES = USEREVENT + 14
 MOVES = USEREVENT + 15
 DISPLAY_WINNER = USEREVENT + 16
 
@@ -147,9 +146,17 @@ RHOMOS = 'Rhomos'
 ELOUS = 'Elous'
 RONIR = 'Ronir'
 
+SHIPNAMES_2P_1 = pygame.image.load(
+    r"Assets\Icons\SelectShip\2p_ship_1names.png")
+
+SHIPNAMES_2P_2 = pygame.image.load(
+    r"Assets\Icons\SelectShip\2p_ship_2names.png")
+
+SHIPNAMES = pygame.image.load(
+    r"Assets\Icons\SelectShip\ship_names.png")
+
 SETTINGS_BACKGROUND = pygame.image.load(
-    r"Assets\Icons\Settings\SettingsBackground.png"
-)
+    r"Assets\Icons\Settings\SettingsBackground.png")
 
 # Settings Button images
 
@@ -213,6 +220,9 @@ MOVES_MENU = pygame.image.load(
 
 RESET_BUTTON = pygame.image.load(
     r"Assets\Icons\Settings\ResetButton.png")
+
+HIGHSCORE_DISPBOARD = pygame.image.load(
+    r"Assets\Icons\Settings\HighscoreBoard.png")
 
 '''
 # Weapon images
