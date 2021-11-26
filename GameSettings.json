@@ -1,11 +1,16 @@
 {
   "Game_Settings": {
-    "HighScore": {},
+    "HighScore": {"trevor":6355,"mfon":5543,"what":7676},
     "Stages Unlocked": [
       "Stage1",
-      "Stage2"
+      "Stage2",
+      "Stage3",
+      "Stage4"
     ],
-    "Ships Unlocked": [],
+    "Ships Unlocked": [
+      "Ceader",
+      "Vidite"
+    ],
     "Stars Collected": [
       [
         0,

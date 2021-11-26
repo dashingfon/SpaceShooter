@@ -227,6 +227,9 @@ RESET_BUTTON = pygame.image.load(
 HIGHSCORE_DISPBOARD = pygame.image.load(
     r"Assets\Icons\Settings\HighscoreBoard.png")
 
+ACHIEVEMENT_DISPBOARD = pygame.image.load(
+    r"Assets\Icons\Settings\AchievementBoard.png")
+
 '''
 # Weapon images
 BASICGUN_1 = pygame.image.load()

@@ -1,2 +1,2 @@
-f = range(1,11)
-print(f[0])
+stage = 'ghfhf'
+print(stage[:3])

@@ -649,14 +649,14 @@ def Moves(Surface,SettingsBg):
 
     BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(440,448))
 
+    Surface.blit(SettingsBg,(0,0))
+    Surface.blit(Cfg.MOVES_MENU,(257,36))
+
+    BackButton.display(Surface)
+
     Active = True
 
     while Active:
-
-        Surface.blit(SettingsBg,(0,0))
-        Surface.blit(Cfg.MOVES_MENU,(257,36))
-
-        BackButton.display(Surface)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -680,10 +680,7 @@ def HighScores(Surface,SettingsBg):
     BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(346,448))
     ResetButton = Button(Cfg.RESET_BUTTON,Cfg.INVALID,(485,448))
 
-    HighScores = get_HighScores()
-
-    Grungerocker_6_013 = pygame.font.SysFont('grungerocker',35)
-    
+    HighScores = get_HighScores()    
 
     Sorted = SortDict_byValues(HighScores)[:10]
     
@@ -708,21 +705,21 @@ def HighScores(Surface,SettingsBg):
         
         HighScoresGrid.selected.highlight(Surface)
 
-        Grungerocker_4 = pygame.font.SysFont('grungerocker',25)
+        Consolas_25 = pygame.font.SysFont('consolas',25)
         x = 1
         rect_top, rect_left = 95, 290
 
         for item in Sorted:
 
-            Index = Grungerocker_4.render(str(x),True,Cfg.WHITE)
+            Index = Consolas_25.render(str(x),True,Cfg.WHITE)
             Index_rect = Index.get_rect()
             Index_rect.left, Index_rect.top = rect_left, rect_top
 
-            Name = Grungerocker_4.render(item[0],True,Cfg.WHITE)
+            Name = Consolas_25.render(item[0],True,Cfg.WHITE)
             Name_rect = Name.get_rect()
             Name_rect.left, Name_rect.top = Index_rect.left + 50, rect_top
 
-            Score = Grungerocker_4.render(str(item[1]),True,Cfg.WHITE)
+            Score = Consolas_25.render(str(item[1]),True,Cfg.WHITE)
             Score_rect = Score.get_rect()
             Score_rect.left, Score_rect.top = Name_rect.left + 260, rect_top
 
@@ -733,8 +730,6 @@ def HighScores(Surface,SettingsBg):
             x += 1
             rect_top += 30
             
-
-
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -766,19 +761,103 @@ def HighScores(Surface,SettingsBg):
 
         pygame.display.update()
 
+def get_stagesUnlocked():
+
+    with open('GameSettings.json') as GS:
+        GameSettings = json.load(GS)
+        StagesUnlocked = GameSettings['Game_Settings']['Stages Unlocked']
+    
+    return StagesUnlocked
+
+def get_shipsUnlocked():
+
+    with open('GameSettings.json') as GS:
+        GameSettings = json.load(GS)
+        ShipsUnlocked = GameSettings['Game_Settings']['Ships Unlocked']
+    
+    return ShipsUnlocked
+
 def Achievement(Surface,SettingsBg):
 
     BackButton = Button(Cfg.BACKBUTTON,Cfg.SETTINGS,(440,448))
 
+    UnlockedStages = get_stagesUnlocked()
+    CollectedStars = get_CollectedStars()
+    UnlockedShips = get_shipsUnlocked()
+    
+    Surface.blit(SettingsBg,(0,0))
+    Surface.blit(Cfg.ACHIEVEMENT_DISPBOARD,(257,36))
+
+    BackButton.display(Surface)
+
+    BlueStar = 0
+    SilverStar = 0
+    GoldStar = 0
+
+    for i in range(len(CollectedStars)):
+        if CollectedStars[i][0]:
+            BlueStar += 1
+        if CollectedStars[i][1]:
+            SilverStar += 1
+        if CollectedStars[i][2]:
+            GoldStar += 1
+
+    Consolas = pygame.font.SysFont('consolas',25)
+    Blue = Consolas.render(str(BlueStar),True,Cfg.WHITE)
+    Blue_rect = Blue.get_rect()
+    Blue_rect.left, Blue_rect.top = 376, 98
+
+    Silver = Consolas.render(str(SilverStar),True,Cfg.WHITE)
+    Silver_rect = Silver.get_rect()
+    Silver_rect.left, Silver_rect.top = Blue_rect.left + 129, 98
+
+    Gold = Consolas.render(str(GoldStar),True,Cfg.WHITE)
+    Gold_rect = Gold.get_rect()
+    Gold_rect.left, Gold_rect.top = Silver_rect.left + 116, 98
+
+    Surface.blit(Blue,Blue_rect)
+    Surface.blit(Silver,Silver_rect)
+    Surface.blit(Gold,Gold_rect)
+
+    Surface.blit(Cfg.BLUE_STAR,(315,86))
+    Surface.blit(Cfg.SILVER_STAR,(438,86))
+    Surface.blit(Cfg.GOLD_STAR,(561,86))
+
+    Consolas = pygame.font.SysFont('consolas',20)
+
+    x = 317
+    y = 161
+
+    for i in UnlockedStages:
+        if i == "Stage1" or i == "Stage2":
+            pass
+        else:
+            message = 'Unlocked ' + i[:5] + ' ' + i[5:]
+            Message = Consolas.render(message,True,Cfg.WHITE)
+            Message_rect = Message.get_rect()
+            Message_rect.left, Message_rect.top = x, y
+
+            Surface.blit(Message,Message_rect)
+            y += 30
+            pygame.draw.rect(
+                Surface,Cfg.WHITE,(Message_rect.left - 25, Message_rect.top + 3,11,11))
+
+    for i in UnlockedShips:
+        x = Message_rect.left
+        y = Message_rect.top + 30
+        message = i + ' Unlocked'
+        Message = Consolas.render(message,True,Cfg.WHITE)
+        Message_rect = Message.get_rect()
+        Message_rect.left, Message_rect.top = x, y
+
+        Surface.blit(Message,Message_rect)
+        y += 30
+        pygame.draw.rect(
+            Surface,Cfg.WHITE,(Message_rect.left - 25, Message_rect.top + 3,11,11))
+        
     Active = True
 
-
     while Active:
-
-        Surface.blit(SettingsBg,(0,0))
-        Surface.blit(Cfg.MOVES_MENU,(257,36))
-
-        BackButton.display(Surface)
 
         for event in pygame.event.get():
             if event.type == QUIT:

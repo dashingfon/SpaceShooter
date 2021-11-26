@@ -101,6 +101,10 @@ while True:
 
         if event.type == Cfg.HIGHSCORES:
             UI.HighScores(WindowSurface,Cfg.SETTINGS_BACKGROUND)
+        
+        if event.type == Cfg.ACHIEVEMENT:
+            UI.Achievement(WindowSurface,Cfg.SETTINGS_BACKGROUND)
+
 
     pygame.display.update()
     MainClock.tick(Cfg.FPS)
